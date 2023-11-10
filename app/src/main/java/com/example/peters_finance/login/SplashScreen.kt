@@ -70,7 +70,7 @@ fun SplashOptions(
     Spacer(modifier = Modifier.size(spacing))
 
     Button(
-        onClick = { navController.navigate("groupHomeOverview") },
+        onClick = { navController.navigate("CreateAccountPage") },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black

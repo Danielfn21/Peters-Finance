@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.peters_finance.groups.GroupHomeOverview
+import com.example.peters_finance.login.CreateAccountPage
 import com.example.peters_finance.login.LoginPage
 import com.example.peters_finance.login.SplashScreen
 
@@ -29,6 +30,9 @@ class MainActivity : ComponentActivity() {
 
                 composable("LoginPage"){
                     LoginPage(navController)
+                }
+                composable("CreateAccountPage"){
+                    CreateAccountPage(navController)
                 }
             }
 

@@ -55,6 +55,7 @@ fun information(navController: NavController) {
     val text = ""
 
     Text(text = "LOGIN", fontSize = 25.sp)
+    // TODO: Make text field save data, for use when viewing account page
     OutlinedTextField(value = text, onValueChange = {}, label = { Text("Acount Name")})
     OutlinedTextField(value = text, onValueChange = {}, label = { Text("Password")})
     Column(
@@ -83,7 +84,7 @@ fun information(navController: NavController) {
         Spacer(modifier = Modifier.size(spacing))
 
         Button(
-            onClick = { navController.navigate("groupHomeOverview") },
+            onClick = { navController.navigate("CreateAccountPage") },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Gray,
                 contentColor = Color.Black
