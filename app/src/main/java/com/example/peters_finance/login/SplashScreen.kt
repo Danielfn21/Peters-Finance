@@ -15,12 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
-
 
 
 @Composable
@@ -56,7 +54,7 @@ fun SplashOptions(
 
 
     Button(
-        onClick = { navController.navigate("groupHomeOverview") },
+        onClick = { navController.navigate("LoginPage") },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
