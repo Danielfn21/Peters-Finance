@@ -18,43 +18,45 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.peters_finance.R
 
 
 
-@Preview(showBackground = true)
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    navController: NavController
+) {
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
 
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(330.dp)
-                )
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Logo",
+            modifier = Modifier.size(330.dp)
+        )
 
-                SplashOptions()
-            }
-
-
+        SplashOptions(navController)
+    }
 }
 
 
 @Composable
-fun SplashOptions() {
+fun SplashOptions(
+    navController: NavController
+) {
     val splashFontSize = 32.sp
     val spacing = 10.dp
 
 
     Button(
-        onClick = { println("login") },
+        onClick = { navController.navigate("groupHomeOverview") },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
@@ -70,7 +72,7 @@ fun SplashOptions() {
     Spacer(modifier = Modifier.size(spacing))
 
     Button(
-        onClick = { println("create") },
+        onClick = { navController.navigate("groupHomeOverview") },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
