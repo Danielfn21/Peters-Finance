@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable("groupHomeOverview"){
-                    GroupHomeOverview()
+                    GroupHomeOverview(navController)
                 }
 
                 composable("LoginPage"){
