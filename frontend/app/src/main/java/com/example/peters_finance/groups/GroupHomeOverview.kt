@@ -1,6 +1,5 @@
 package com.example.peters_finance.groups
 
-import android.view.WindowManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +32,7 @@ import androidx.navigation.NavController
 
 @Composable
 fun GroupHomeOverview(navController: NavController) {
+    println("HERE")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,10 +53,11 @@ fun GroupHomeOverview(navController: NavController) {
 
 
 @Composable
-fun initalview(navController: NavController){
+fun groups(navController: NavController){
     //TODO: Figure out how we wanna do data for the app
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun popup () {
     var popupControl by remember { mutableStateOf(false) }
@@ -66,7 +69,7 @@ fun popup () {
         )) {
         Text("+", fontSize = 30.sp)
     }
-    /*TODO: Issue here with dialog no diming
+    /*TODO: Issue here with dialog not diming
        background on the emulator, if a physical
        device is used it will work as expected with background diming
        / grey out*/
@@ -82,14 +85,16 @@ fun popup () {
                 shape = RoundedCornerShape(16.dp),
 
                 ){
-                Text(
-                    text = "Hello",
-                    )
+                Text(text = "Group name",)
+                OutlinedTextField(value = "", onValueChange = {})
+                Text(text = "Group Description")
+                OutlinedTextField(value = "", onValueChange = {})
             }
 
         }
     }
 }
+
 
 
 
