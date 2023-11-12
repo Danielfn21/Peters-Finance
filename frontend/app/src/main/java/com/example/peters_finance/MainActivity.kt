@@ -34,6 +34,10 @@ class MainActivity : ComponentActivity() {
                 composable("CreateAccountPage"){
                     CreateAccountPage(navController)
                 }
+
+                composable("AccountPage"){
+                    AccountPage()
+                }
             }
 
 

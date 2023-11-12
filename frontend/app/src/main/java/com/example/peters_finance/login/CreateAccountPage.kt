@@ -39,13 +39,13 @@ fun CreateAccountPage (navController: NavController) {
             contentDescription = "Logo",
             modifier = Modifier.size(200.dp)
         )
-        accountInformation(navController)
+        AccountInformation(navController)
     }
 }
 
 @ExperimentalMaterial3Api
 @Composable
-fun accountInformation (navController: NavController) {
+fun AccountInformation (navController: NavController) {
     val loginFontSize = 17.sp
     val textFontSize = 14.sp
     val spacing = 10.dp

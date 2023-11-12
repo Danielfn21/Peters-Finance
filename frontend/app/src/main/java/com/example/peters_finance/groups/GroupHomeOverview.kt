@@ -1,6 +1,7 @@
 package com.example.peters_finance.groups
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,9 +44,11 @@ fun GroupHomeOverview(navController: NavController) {
 
         ){
         Row (verticalAlignment = Alignment.CenterVertically){
-            Text(text = "ACCOUNT NAME")
+            Text(text = "ACCOUNT NAME", Modifier.clickable {
+                navController.navigate("AccountPage")
+            })
             Spacer(modifier = Modifier.weight(1f))
-            popup()
+            Popup()
         }
 
     }
@@ -53,13 +56,13 @@ fun GroupHomeOverview(navController: NavController) {
 
 
 @Composable
-fun groups(navController: NavController){
+fun Groups(navController: NavController){
     //TODO: Figure out how we wanna do data for the app
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun popup () {
+fun Popup () {
     var popupControl by remember { mutableStateOf(false) }
 
     Button(onClick = { popupControl = true },
