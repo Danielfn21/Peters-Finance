@@ -2,7 +2,7 @@ import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
 import * as fs from 'fs';
 
-@Controller('User')
+@Controller('Users')
 export class JsonController {
     @Get()
     async serveJson(@Res() res: Response): Promise<void> {
