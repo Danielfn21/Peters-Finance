@@ -17,8 +17,7 @@ import com.example.peters_finance.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-//THIS SHOULD WORK BUT ANDROID IS REALLY FUCKING STUPID
-//IT DOES NOT WANT TO FETCH FROM SHIT THAT IS NOT HTTPS Y(UIBSAYHODG=(/G#
+//THIS CLASS IS ONLY FOR TESTING THE API / DIFFERENT CALLS
 
 @Composable
 fun DisplayUserNames() {

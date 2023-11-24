@@ -3,14 +3,18 @@ package com.example.peters_finance
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -18,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,12 +46,14 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun AccountPage(){
 
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(0.dp, 30.dp),
+            .padding(top = 30.dp, bottom = 15.dp)
+            .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
 
@@ -77,14 +85,12 @@ fun AccountInfo(){
     //styling
     val infoFontSize = 16.sp
     val spacing = 8.dp
-    val outlineTextFieldHeight = 40.dp //not in use yet as it breaks the fields
 
     //TODO Make it fetch these two values from the actual user
     val accountNameLabel = "LTG"
     val phoneNumberLabel = "123-call-kys-hotline"
 
     val passwordLabel = "*************"
-
 
     //New values
     var newAccountName by remember {
@@ -104,23 +110,43 @@ fun AccountInfo(){
         horizontalAlignment = Alignment.Start,
     ){
         Text(text = "Change account name:", fontSize = infoFontSize)
-        OutlinedTextField(value = newAccountName, onValueChange = {}, label = {Text(accountNameLabel)},)
+        OutlinedTextField(
+            value = newAccountName,
+            onValueChange = {newAccountNameInput -> newAccountName = newAccountNameInput},
+            label = { Text(accountNameLabel)}
+        )
 
         Spacer(modifier = Modifier.size(spacing))
 
         Text(text = "Change phone number:", fontSize = infoFontSize)
-        OutlinedTextField(value = newPhoneNumber, onValueChange = {}, label = {Text(phoneNumberLabel)})
+        OutlinedTextField(
+            value = newPhoneNumber,
+            onValueChange = {newPhoneNumberInput -> newPhoneNumber = newPhoneNumberInput},
+            label = { Text(phoneNumberLabel)}
+        )
 
         Spacer(modifier = Modifier.size(spacing))
 
         Text(text = "Change password:", fontSize = infoFontSize)
-        OutlinedTextField(value = newPassword, onValueChange = {}, label = {Text(passwordLabel)})
+        OutlinedTextField(
+            value = newPassword,
+            onValueChange = {newPasswordInput -> newPassword = newPasswordInput},
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.clickable { repeatNewPassword = "" },
+            label = { Text(passwordLabel)}
+        )
 
         Spacer(modifier = Modifier.size(spacing))
 
         //TODO: Make it check if its identical to newPassword
         Text(text = "Repeat new password:", fontSize = infoFontSize)
-        OutlinedTextField(value = repeatNewPassword, onValueChange = {}, label = {Text(passwordLabel)})
+        OutlinedTextField(
+            value = repeatNewPassword,
+            onValueChange = {repeatNewPasswordInput -> repeatNewPassword = repeatNewPasswordInput},
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.clickable { repeatNewPassword = "" },
+            label = { Text(passwordLabel)}
+        )
 
         Spacer(modifier = Modifier.size(spacing))
     }
