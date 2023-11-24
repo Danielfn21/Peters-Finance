@@ -1,5 +1,4 @@
-{
-    "users": [
+[
       {
         "name": "Luke Skywalker",
         "birth_year": "1985",
@@ -70,6 +69,6 @@
         "country": "Greenland",
         "phone_number": "ObiWan-123456789"
       }
-    ]
-  }
+]
+  
   
