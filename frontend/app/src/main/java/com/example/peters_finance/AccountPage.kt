@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
-fun AccountPage(){
+fun AccountPage() {
 
     val scrollState = rememberScrollState()
 
@@ -57,15 +57,17 @@ fun AccountPage(){
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
 
-        ){
+        ) {
 
 
-        Card (
-            border = BorderStroke(2.dp,Color.Black),
+        Card(
+            border = BorderStroke(2.dp, Color.Black),
             modifier = Modifier.size(300.dp)
-        ){
-            Image(painter = painterResource(
-                id = R.drawable.placeholder_user),
+        ) {
+            Image(
+                painter = painterResource(
+                    id = R.drawable.placeholder_user
+                ),
                 contentDescription = "LTG",
                 modifier = Modifier.fillMaxSize()
             )
@@ -80,7 +82,7 @@ fun AccountPage(){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccountInfo(){
+fun AccountInfo() {
 
     //styling
     val infoFontSize = 16.sp
@@ -106,9 +108,9 @@ fun AccountInfo(){
         mutableStateOf("")
     }
 
-    Column (
+    Column(
         horizontalAlignment = Alignment.Start,
-    ){
+    ) {
         Text(text = "Change account name:", fontSize = infoFontSize)
         OutlinedTextField(
             value = newAccountName,
@@ -154,12 +156,12 @@ fun AccountInfo(){
     var checked by remember {
         mutableStateOf(true)
     }
-    Row (
+    Row(
         modifier = Modifier
             .width(280.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
-    ){
+    ) {
         Text(text = "Notifications:", fontSize = infoFontSize)
 
         Switch(
@@ -169,27 +171,42 @@ fun AccountInfo(){
             }
         )
     }
-
-    Row (
+    Row(
         modifier = Modifier
             .width(280.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
-    ){
+    ) {
+        Text(text = "Darkmode:", fontSize = infoFontSize)
+
+        Switch(
+            checked = false,
+            onCheckedChange = {
+                checked = it
+            }
+        )
+    }
+
+    Row(
+        modifier = Modifier
+            .width(280.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         Button(
             onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFDC143C),
                 contentColor = Color.Black
             )
-        )  {
+        ) {
             Text(text = "Discard\nchanges", fontSize = infoFontSize)
         }
 
         Button(
             onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(	0xFF228B22),
+                containerColor = Color(0xFF228B22),
                 contentColor = Color.Black
             )
         ) {
