@@ -1,5 +1,6 @@
 package com.example.peters_finance.login
 
+import StyledButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,8 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
+import com.example.peters_finance.ui.theme.Theme
 
 
 @Composable
@@ -33,7 +33,7 @@ fun SplashScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
 
-    ) {
+        ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Logo",
@@ -49,33 +49,21 @@ fun SplashScreen(
 fun SplashOptions(
     navController: NavController
 ) {
-    val splashFontSize = 32.sp
     val spacing = 10.dp
+    Theme {
 
+        StyledButton(text = "LOGIN", onClick = { navController.navigate("LoginPage") })
 
-    Button(
-        onClick = { navController.navigate("LoginPage") },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Gray,
-            contentColor = Color.Black
-        )
-    ) {
-        Text("LOGIN", fontSize = splashFontSize)
+        Spacer(modifier = Modifier.size(spacing))
+
+        Text("OR", fontSize = 32.sp)
+
+        Spacer(modifier = Modifier.size(spacing))
+
+        StyledButton(
+            text = "CREATE ACCOUNT",
+            onClick = { navController.navigate("CreateAccountPage") })
     }
 
-    Spacer(modifier = Modifier.size(spacing))
 
-    Text("OR", fontSize = splashFontSize)
-
-    Spacer(modifier = Modifier.size(spacing))
-
-    Button(
-        onClick = { navController.navigate("CreateAccountPage") },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Gray,
-            contentColor = Color.Black
-        )
-    ) {
-        Text("CREATE ACCOUNT", fontSize = splashFontSize)
-    }
 }
