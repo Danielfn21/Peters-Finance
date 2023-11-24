@@ -96,6 +96,9 @@ fun AccountInfo(){
     var newPassword by remember {
         mutableStateOf("")
     }
+    var repeatNewPassword by remember {
+        mutableStateOf("")
+    }
 
     Column (
         horizontalAlignment = Alignment.Start,
@@ -117,7 +120,7 @@ fun AccountInfo(){
 
         //TODO: Make it check if its identical to newPassword
         Text(text = "Repeat new password:", fontSize = infoFontSize)
-        OutlinedTextField(value = "", onValueChange = {}, label = {Text(passwordLabel)})
+        OutlinedTextField(value = repeatNewPassword, onValueChange = {}, label = {Text(passwordLabel)})
 
         Spacer(modifier = Modifier.size(spacing))
     }

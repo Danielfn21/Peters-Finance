@@ -5,5 +5,6 @@ data class User (
     val birth_year: String,
     val gender: String,
     val country: String,
-    val phone_number: String
+    val phone_number: String,
+    val password: String
 )

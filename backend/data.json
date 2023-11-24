@@ -1,74 +1,83 @@
 [
-      {
-        "name": "Luke Skywalker",
-        "birth_year": "1985",
-        "gender": "male",
-        "country": "Brazil",
-        "phone_number": "Luke-123456789"
-      },
-      {
-        "name": "C-3PO",
-        "birth_year": "1960",
-        "gender": "robot",
-        "country": "Canada",
-        "phone_number": "C3PO-987654321"
-      },
-      {
-        "name": "R2-D2",
-        "birth_year": "1975",
-        "gender": "robot",
-        "country": "China",
-        "phone_number": "R2D2-234567890"
-      },
-      {
-        "name": "Darth Vader",
-        "birth_year": "1969",
-        "gender": "male",
-        "country": "Denmark",
-        "phone_number": "DarthVader-987654321"
-      },
-      {
-        "name": "Leia Organa",
-        "birth_year": "1988",
-        "gender": "female",
-        "country": "Egypt",
-        "phone_number": "Leia-123456789"
-      },
-      {
-        "name": "Owen Lars",
-        "birth_year": "1945",
-        "gender": "male",
-        "country": "Finland",
-        "phone_number": "Owen-234567890"
-      },
-      {
-        "name": "Beru Whitesun lars",
-        "birth_year": "1950",
-        "gender": "female",
-        "country": "France",
-        "phone_number": "Beru-123456789"
-      },
-      {
-        "name": "R5-D4",
-        "birth_year": "1970",
-        "gender": "robot",
-        "country": "Germany",
-        "phone_number": "R5D4-234567890"
-      },
-      {
-        "name": "Biggs Darklighter",
-        "birth_year": "1976",
-        "gender": "male",
-        "country": "Greece",
-        "phone_number": "Biggs-987654321"
-      },
-      {
-        "name": "Obi-Wan Kenobi",
-        "birth_year": "1963",
-        "gender": "male",
-        "country": "Greenland",
-        "phone_number": "ObiWan-123456789"
-      }
+    {
+      "name": "Luke Skywalker",
+      "birth_year": "1985",
+      "gender": "male",
+      "country": "Brazil",
+      "phone_number": "Luke-123456789",
+      "password": "Brazil1985Luke"
+    },
+    {
+      "name": "C-3PO",
+      "birth_year": "1960",
+      "gender": "robot",
+      "country": "Canada",
+      "phone_number": "C3PO-987654321",
+      "password": "Canada1960C3PO"
+    },
+    {
+      "name": "R2-D2",
+      "birth_year": "1975",
+      "gender": "robot",
+      "country": "China",
+      "phone_number": "R2D2-234567890",
+      "password": "China1975R2D2"
+    },
+    {
+      "name": "Darth Vader",
+      "birth_year": "1969",
+      "gender": "male",
+      "country": "Denmark",
+      "phone_number": "DarthVader-987654321",
+      "password": "Denmark1969DarthVader"
+    },
+    {
+      "name": "Leia Organa",
+      "birth_year": "1988",
+      "gender": "female",
+      "country": "Egypt",
+      "phone_number": "Leia-123456789",
+      "password": "Egypt1988Leia"
+    },
+    {
+      "name": "Owen Lars",
+      "birth_year": "1945",
+      "gender": "male",
+      "country": "Finland",
+      "phone_number": "Owen-234567890",
+      "password": "Finland1945Owen"
+    },
+    {
+      "name": "Beru Whitesun Lars",
+      "birth_year": "1950",
+      "gender": "female",
+      "country": "France",
+      "phone_number": "Beru-123456789",
+      "password": "France1950Beru"
+    },
+    {
+      "name": "R5-D4",
+      "birth_year": "1970",
+      "gender": "robot",
+      "country": "Germany",
+      "phone_number": "R5D4-234567890",
+      "password": "Germany1970R5D4"
+    },
+    {
+      "name": "Biggs Darklighter",
+      "birth_year": "1976",
+      "gender": "male",
+      "country": "Greece",
+      "phone_number": "Biggs-987654321",
+      "password": "Greece1976Biggs"
+    },
+    {
+      "name": "Obi-Wan Kenobi",
+      "birth_year": "1963",
+      "gender": "male",
+      "country": "Greenland",
+      "phone_number": "ObiWan-123456789",
+      "password": "Greenland1963ObiWan"
+    }
 ]
-  
   
