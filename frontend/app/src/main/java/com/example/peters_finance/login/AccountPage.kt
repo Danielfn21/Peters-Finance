@@ -1,4 +1,4 @@
-package com.example.peters_finance
+package com.example.peters_finance.login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -34,6 +34,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.peters_finance.R
 
 /*TODO: Move this into a appropriate folder later,
    More importantly resize everything so it actually fits
