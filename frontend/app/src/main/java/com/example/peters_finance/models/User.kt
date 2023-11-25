@@ -1,6 +1,6 @@
 package com.example.peters_finance.models
 
-data class User (
+data class User(
     val name: String,
     val birth_year: String,
     val gender: String,

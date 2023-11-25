@@ -51,17 +51,18 @@ fun AccountPage() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 30.dp, bottom = 15.dp)
             .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
 
+        Spacer(modifier = Modifier.size(30.dp))
 
         Card(
-            border = BorderStroke(2.dp, Color.Black),
-            modifier = Modifier.size(300.dp)
+            modifier = Modifier
+                .size(300.dp),
+            border = BorderStroke(2.dp, Color.Black)
         ) {
             Image(
                 painter = painterResource(
@@ -113,8 +114,8 @@ fun AccountInfo() {
         Text(text = "Change account name:", fontSize = infoFontSize)
         OutlinedTextField(
             value = newAccountName,
-            onValueChange = {newAccountNameInput -> newAccountName = newAccountNameInput},
-            label = { Text(accountNameLabel)}
+            onValueChange = { newAccountNameInput -> newAccountName = newAccountNameInput },
+            label = { Text(accountNameLabel) }
         )
 
         Spacer(modifier = Modifier.size(spacing))
@@ -122,8 +123,8 @@ fun AccountInfo() {
         Text(text = "Change phone number:", fontSize = infoFontSize)
         OutlinedTextField(
             value = newPhoneNumber,
-            onValueChange = {newPhoneNumberInput -> newPhoneNumber = newPhoneNumberInput},
-            label = { Text(phoneNumberLabel)}
+            onValueChange = { newPhoneNumberInput -> newPhoneNumber = newPhoneNumberInput },
+            label = { Text(phoneNumberLabel) }
         )
 
         Spacer(modifier = Modifier.size(spacing))
@@ -131,10 +132,10 @@ fun AccountInfo() {
         Text(text = "Change password:", fontSize = infoFontSize)
         OutlinedTextField(
             value = newPassword,
-            onValueChange = {newPasswordInput -> newPassword = newPasswordInput},
+            onValueChange = { newPasswordInput -> newPassword = newPasswordInput },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.clickable { repeatNewPassword = "" },
-            label = { Text(passwordLabel)}
+            label = { Text(passwordLabel) }
         )
 
         Spacer(modifier = Modifier.size(spacing))
@@ -143,10 +144,12 @@ fun AccountInfo() {
         Text(text = "Repeat new password:", fontSize = infoFontSize)
         OutlinedTextField(
             value = repeatNewPassword,
-            onValueChange = {repeatNewPasswordInput -> repeatNewPassword = repeatNewPasswordInput},
+            onValueChange = { repeatNewPasswordInput ->
+                repeatNewPassword = repeatNewPasswordInput
+            },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.clickable { repeatNewPassword = "" },
-            label = { Text(passwordLabel)}
+            label = { Text(passwordLabel) }
         )
 
         Spacer(modifier = Modifier.size(spacing))
@@ -188,7 +191,8 @@ fun AccountInfo() {
 
     Row(
         modifier = Modifier
-            .width(280.dp),
+            .width(280.dp)
+            .padding(bottom = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

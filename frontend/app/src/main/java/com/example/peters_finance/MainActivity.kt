@@ -21,30 +21,28 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "splash") {
-                composable("splash"){
+                composable("splash") {
                     SplashScreen(navController)
                 }
 
-                composable("groupHomeOverview"){
+                composable("groupHomeOverview") {
                     GroupHomeOverview(navController)
                 }
 
-                composable("LoginPage"){
+                composable("LoginPage") {
                     LoginPage(navController)
                 }
-                composable("CreateAccountPage"){
+                composable("CreateAccountPage") {
                     CreateAccountPage(navController)
                 }
 
-                composable("AccountPage"){
+                composable("AccountPage") {
                     AccountPage()
                 }
             }
 
 
-
-
         }
-        }
+    }
 }
 

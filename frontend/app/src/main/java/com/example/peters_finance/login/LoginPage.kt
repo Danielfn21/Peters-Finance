@@ -30,7 +30,7 @@ import com.example.peters_finance.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage (navController: NavController) {
+fun LoginPage(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,13 +63,13 @@ fun Information(navController: NavController) {
     // TODO: Make text field save data, for use when viewing account page
     OutlinedTextField(
         value = username,
-        onValueChange = {usernameInput -> username = usernameInput},
-        label = { Text("Account Name")}
+        onValueChange = { usernameInput -> username = usernameInput },
+        label = { Text("Account Name") }
     )
     OutlinedTextField(
         value = password,
-        onValueChange = {passwordInput -> password = passwordInput},
-        label = { Text("Password")},
+        onValueChange = { passwordInput -> password = passwordInput },
+        label = { Text("Password") },
         visualTransformation = PasswordVisualTransformation()
     )
     Column(
@@ -87,7 +87,7 @@ fun Information(navController: NavController) {
                 containerColor = Color.Gray,
                 contentColor = Color.Black,
 
-            )
+                )
         ) {
             Text("LOGIN", fontSize = loginFontSize)
         }
@@ -108,5 +108,5 @@ fun Information(navController: NavController) {
             Text("CREATE ACCOUNT", fontSize = loginFontSize)
         }
     }
- 
+
 }

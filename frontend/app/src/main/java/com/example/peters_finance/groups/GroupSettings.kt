@@ -100,6 +100,8 @@ fun GroupInfo() {
     val textPadding = 10.dp
     val textFontSize = 14.sp
 
+    val maxGroupNameChars = 32
+
     //Fetch these values from current group
     var groupName by remember { mutableStateOf("the zaza cookout xtreme edition") }
     var groupDescription by remember { mutableStateOf("BROTHER WE COOKING HELL YEAH BROTHER WE COOKING OOOOH YEAH BABY WITH JET FUEL CHINESE GATE TO HELL FIRE STOVE STYLE NAAN BREAD CEMENT WALL TYPE BEAT") }
@@ -112,8 +114,11 @@ fun GroupInfo() {
     )
     TextField(
         value = groupName,
-        onValueChange = { groupName = it },
-        modifier = Modifier.fillMaxWidth()
+        onValueChange = {
+            if (it.length <= maxGroupNameChars) groupName = it
+        },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true
     )
 
     Text(
@@ -142,13 +147,13 @@ fun GroupInfo() {
         )
     ) {
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
-        ){
+        ) {
 
             MemberEntry()
 
@@ -178,7 +183,7 @@ fun GroupInfo() {
         Text("Save Changes", fontSize = textFontSize)
     }
 
-    Text("OR?", fontSize = textFontSize, modifier = Modifier.padding(textPadding))
+    Text("OR", fontSize = textFontSize, modifier = Modifier.padding(textPadding))
 
     Button(
         onClick = { println("discard") },
@@ -193,7 +198,7 @@ fun GroupInfo() {
 }
 
 @Composable
-fun MemberEntry(){
+fun MemberEntry() {
     //TODO: Generator that adds 'User's to to this
     Text("Bob Johnson")
 }
