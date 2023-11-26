@@ -27,11 +27,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
+import com.example.peters_finance.models.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginPage(
-    navController: NavController
+    navController: NavController,
+    newUser: (User) -> Unit
+
 ) {
     Column(
         modifier = Modifier

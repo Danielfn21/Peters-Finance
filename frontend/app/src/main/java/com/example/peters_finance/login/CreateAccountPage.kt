@@ -27,11 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
+import com.example.peters_finance.models.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateAccountPage (
-    navController: NavController
+fun CreateAccountPage(
+    navController: NavController,
+    newUser: (User?) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -46,13 +48,36 @@ fun CreateAccountPage (
             contentDescription = "Logo",
             modifier = Modifier.size(200.dp)
         )
-        AccountInformation(navController)
+        AccountInformation(navController, newUser)
     }
 }
 
+fun createUser(
+    phoneNumber: String,
+    accountName: String,
+    password: String,
+    repeatPassword: String
+): User? {
+    //Checks if any fields are empty
+    if (phoneNumber.isEmpty() || accountName.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
+        return null
+    }
+
+    //Checks if passwords match
+    if (password != repeatPassword) {
+        return null
+    }
+
+    return User(accountName, phoneNumber, password);
+}
+
+
 @ExperimentalMaterial3Api
 @Composable
-fun AccountInformation (navController: NavController) {
+fun AccountInformation(
+    navController: NavController,
+    newUser: (User?) -> Unit
+) {
     val loginFontSize = 17.sp
     val textFontSize = 14.sp
     val spacing = 10.dp
@@ -67,25 +92,24 @@ fun AccountInformation (navController: NavController) {
     // TODO: Make text field save data, for use when viewing account page
     OutlinedTextField(
         value = phoneNumber,
-        onValueChange = {phoneNumberInput -> phoneNumber = phoneNumberInput},
+        onValueChange = { phoneNumberInput -> phoneNumber = phoneNumberInput },
         label = { Text("Phone Number") })
     OutlinedTextField(
         value = accountName,
-        onValueChange = {accountNameInput -> accountName = accountNameInput},
+        onValueChange = { accountNameInput -> accountName = accountNameInput },
         label = { Text("Account Name") })
     OutlinedTextField(
         value = password,
-        onValueChange = {passwordInput -> password = passwordInput},
+        onValueChange = { passwordInput -> password = passwordInput },
         label = { Text("Password") },
         visualTransformation = PasswordVisualTransformation()
     )
     OutlinedTextField(
         value = repeatPassword,
-        onValueChange = {repeatPasswordInput -> repeatPassword = repeatPasswordInput},
+        onValueChange = { repeatPasswordInput -> repeatPassword = repeatPasswordInput },
         label = { Text("Repeat Password") },
         visualTransformation = PasswordVisualTransformation()
     )
-
 
 
     Column(
@@ -98,7 +122,13 @@ fun AccountInformation (navController: NavController) {
 
         ) {
         Button(
-            onClick = { navController.navigate("groupHomeOverview") },
+            onClick = {
+                var user = createUser(phoneNumber, accountName, password, repeatPassword)
+                if (user != null) {
+                    newUser(user)
+                    navController.navigate("groupHomeOverview")
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Gray,
                 contentColor = Color.Black

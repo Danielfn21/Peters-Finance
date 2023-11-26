@@ -29,13 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.example.peters_finance.models.User
 
 
 @Composable
 fun GroupHomeOverview(
-    navController: NavController
+    navController: NavController,
+    user: User?
 ) {
-    println("HERE")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,9 +45,9 @@ fun GroupHomeOverview(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
 
-        ){
-        Row (verticalAlignment = Alignment.CenterVertically){
-            Text(text = "ACCOUNT NAME", Modifier.clickable {
+        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "${user?.username}", Modifier.clickable {
                 navController.navigate("AccountPage")
             })
             Spacer(modifier = Modifier.weight(1f))
@@ -58,39 +59,41 @@ fun GroupHomeOverview(
 
 
 @Composable
-fun Groups(navController: NavController){
+fun Groups(navController: NavController) {
     //TODO: Figure out how we wanna do data for the app
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Popup () {
+fun Popup() {
     var popupControl by remember { mutableStateOf(false) }
 
-    Button(onClick = { popupControl = true },
+    Button(
+        onClick = { popupControl = true },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White,
             contentColor = Color.Black
-        )) {
+        )
+    ) {
         Text("+", fontSize = 30.sp)
     }
-    /*TODO: Issue here with dialog not diming
+    /*TODO: Issue here with dialog not dimming
        background on the emulator, if a physical
-       device is used it will work as expected with background diming
+       device is used it will work as expected with background dimming
        / grey out*/
     if (popupControl) {
 
-        Dialog( onDismissRequest = {popupControl = false}) {
+        Dialog(onDismissRequest = { popupControl = false }) {
 
-            Card (
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
                     .padding(16.dp),
                 shape = RoundedCornerShape(16.dp),
 
-                ){
-                Text(text = "Group name",)
+                ) {
+                Text(text = "Group name")
                 OutlinedTextField(value = "", onValueChange = {})
                 Text(text = "Group Description")
                 OutlinedTextField(value = "", onValueChange = {})

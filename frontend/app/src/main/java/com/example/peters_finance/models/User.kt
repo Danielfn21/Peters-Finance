@@ -1,7 +1,7 @@
 package com.example.peters_finance.models
 
 data class User(
-    val username: String,
-    val phone_number: String,
-    val password: String
+    var username: String,
+    var phone_number: String,
+    var password: String
 )

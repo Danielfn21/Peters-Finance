@@ -34,16 +34,20 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.peters_finance.R
+import com.example.peters_finance.models.User
 
 /*TODO: Move this into a appropriate folder later,
    More importantly resize everything so it actually fits
    on a normal sized phone, apparently fillMaxSize() is too tall
    */
 
-@Preview
 @Composable
-fun AccountPage() {
+fun AccountPage(
+    navController: NavController,
+    currentUser: User?
+) {
 
     val scrollState = rememberScrollState()
 
@@ -75,22 +79,50 @@ fun AccountPage() {
 
         Spacer(modifier = Modifier.size(15.dp))
 
-        AccountInfo()
+        AccountInfo(currentUser)
 
     }
 }
 
+fun saveChanges(
+    currentUser: User?,
+    newAccountName: String,
+    newPhoneNumber: String,
+    newPassword: String,
+    repeatNewPassword: String
+) {
+
+    /*TODO: If someone has time: Make it so that it only updates the fields that are not empty,
+    *  instead of forcing changes in all fields. */
+    //Checks different cases
+    if (newAccountName.isEmpty() || newPhoneNumber.isEmpty() || newPassword.isEmpty() || repeatNewPassword.isEmpty()) {
+        return
+    }
+
+    //Checks if passwords match
+    if (newPassword != repeatNewPassword) {
+        return
+    }
+
+    //Update user info
+    currentUser?.username = newAccountName
+    currentUser?.phone_number = newPhoneNumber
+    currentUser?.password = newPassword
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccountInfo() {
+fun AccountInfo(
+    currentUser: User?
+) {
 
     //styling
     val infoFontSize = 16.sp
     val spacing = 8.dp
 
     //TODO Make it fetch these two values from the actual user
-    val accountNameLabel = "LTG"
-    val phoneNumberLabel = "123-call-kys-hotline"
+    val accountNameLabel = currentUser?.username
+    val phoneNumberLabel = currentUser?.phone_number
 
     val passwordLabel = "*************"
 
@@ -114,8 +146,10 @@ fun AccountInfo() {
         Text(text = "Change account name:", fontSize = infoFontSize)
         OutlinedTextField(
             value = newAccountName,
-            onValueChange = { newAccountNameInput -> newAccountName = newAccountNameInput },
-            label = { Text(accountNameLabel) }
+            onValueChange = { newAccountNameInput ->
+                newAccountName = newAccountNameInput
+            },
+            label = { Text(accountNameLabel.toString()) }
         )
 
         Spacer(modifier = Modifier.size(spacing))
@@ -123,8 +157,10 @@ fun AccountInfo() {
         Text(text = "Change phone number:", fontSize = infoFontSize)
         OutlinedTextField(
             value = newPhoneNumber,
-            onValueChange = { newPhoneNumberInput -> newPhoneNumber = newPhoneNumberInput },
-            label = { Text(phoneNumberLabel) }
+            onValueChange = { newPhoneNumberInput ->
+                newPhoneNumber = newPhoneNumberInput
+            },
+            label = { Text(phoneNumberLabel.toString()) }
         )
 
         Spacer(modifier = Modifier.size(spacing))
@@ -132,7 +168,9 @@ fun AccountInfo() {
         Text(text = "Change password:", fontSize = infoFontSize)
         OutlinedTextField(
             value = newPassword,
-            onValueChange = { newPasswordInput -> newPassword = newPasswordInput },
+            onValueChange = { newPasswordInput ->
+                newPassword = newPasswordInput
+            },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.clickable { repeatNewPassword = "" },
             label = { Text(passwordLabel) }
@@ -140,7 +178,6 @@ fun AccountInfo() {
 
         Spacer(modifier = Modifier.size(spacing))
 
-        //TODO: Make it check if its identical to newPassword
         Text(text = "Repeat new password:", fontSize = infoFontSize)
         OutlinedTextField(
             value = repeatNewPassword,
@@ -179,7 +216,7 @@ fun AccountInfo() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "Darkmode:", fontSize = infoFontSize)
+        Text(text = "Dark mode:", fontSize = infoFontSize)
 
         Switch(
             checked = false,
@@ -197,7 +234,12 @@ fun AccountInfo() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                newAccountName = ""
+                newPhoneNumber = ""
+                newPassword = ""
+                repeatNewPassword = ""
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFDC143C),
                 contentColor = Color.Black
@@ -207,7 +249,15 @@ fun AccountInfo() {
         }
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                saveChanges(
+                    currentUser,
+                    newAccountName,
+                    newPhoneNumber,
+                    newPassword,
+                    repeatNewPassword
+                )
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF228B22),
                 contentColor = Color.Black
