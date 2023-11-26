@@ -126,7 +126,7 @@ fun AccountInformation(
                 var user = createUser(phoneNumber, accountName, password, repeatPassword)
                 if (user != null) {
                     newUser(user)
-                    navController.navigate("groupHomeOverview")
+                    navController.navigate("GroupHomeOverview")
                 }
             },
             colors = ButtonDefaults.buttonColors(

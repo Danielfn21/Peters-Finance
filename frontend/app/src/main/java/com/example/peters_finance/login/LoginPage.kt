@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,14 +28,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
+import com.example.peters_finance.api.fetchUsers
 import com.example.peters_finance.models.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginPage(
     navController: NavController,
-    newUser: (User) -> Unit
-
+    backendUsers: List<User>,
+    fetchUser: (User) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -49,13 +51,31 @@ fun LoginPage(
             contentDescription = "Logo",
             modifier = Modifier.size(200.dp)
         )
-        Information(navController)
+        Information(navController, backendUsers, fetchUser)
     }
+}
+
+fun loginUser(
+    username: String,
+    password: String,
+    backendUsers: List<User>
+): User? {
+
+    for (user in backendUsers) {
+        if (user.username == username && user.password == password) {
+            return user
+        }
+    }
+    return null
 }
 
 @ExperimentalMaterial3Api
 @Composable
-fun Information(navController: NavController) {
+fun Information(
+    navController: NavController,
+    backendUsers: List<User>,
+    fetchUser: (User) -> Unit
+) {
     val loginFontSize = 17.sp
     val textFontSize = 14.sp
     val spacing = 10.dp
@@ -87,7 +107,13 @@ fun Information(navController: NavController) {
 
         ) {
         Button(
-            onClick = { navController.navigate("groupHomeOverview") },
+            onClick = {
+                var user = loginUser(username, password, backendUsers)
+                if (user != null) {
+                    fetchUser(user)
+                    navController.navigate("GroupHomeOverview")
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Gray,
                 contentColor = Color.Black,

@@ -3,11 +3,13 @@ package com.example.peters_finance
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.peters_finance.api.fetchUsers
 import com.example.peters_finance.groups.GroupHomeOverview
 import com.example.peters_finance.login.AccountPage
 import com.example.peters_finance.login.CreateAccountPage
@@ -24,6 +26,12 @@ class MainActivity : ComponentActivity() {
 
             var currentUser = remember{ mutableStateOf<User?>(null) }
 
+            //Grab all users stored in the database
+            var backendUsers = emptyList<User>()
+            LaunchedEffect(true){
+                backendUsers = fetchUsers()
+            }
+
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "splash") {
                 composable("splash") {
@@ -31,8 +39,8 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable("LoginPage") {
-                    LoginPage(navController, newUser = { newUser ->
-                        currentUser.value = newUser
+                    LoginPage(navController, backendUsers, fetchUser = { fetchUser ->
+                        currentUser.value = fetchUser
                     })
                 }
 
@@ -42,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     })
                 }
 
-                composable("groupHomeOverview") {
+                composable("GroupHomeOverview") {
                     GroupHomeOverview(navController, currentUser.value)
                 }
 
