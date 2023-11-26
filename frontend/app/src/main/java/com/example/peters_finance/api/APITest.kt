@@ -56,7 +56,9 @@ fun DisplayUserNames() {
 fun UserList(users: List<User>) {
     LazyColumn {
         items(users) { user ->
-            Text(text = user.name, modifier = Modifier.padding(16.dp))
+            Text(text = user.username, modifier = Modifier.padding(16.dp))
+            Text(text = user.phone_number, modifier = Modifier.padding(16.dp))
+            Text(text = user.password, modifier = Modifier.padding(16.dp))
         }
     }
 }

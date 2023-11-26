@@ -30,7 +30,9 @@ import com.example.peters_finance.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateAccountPage (navController: NavController) {
+fun CreateAccountPage (
+    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()

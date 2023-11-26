@@ -32,7 +32,9 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun GroupHomeOverview(navController: NavController) {
+fun GroupHomeOverview(
+    navController: NavController
+) {
     println("HERE")
     Column(
         modifier = Modifier
