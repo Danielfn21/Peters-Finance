@@ -59,7 +59,7 @@ fun GroupSettings(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TopBar(navController, allUsers, group) //TODO: Fetch this from current group
+        TopBar(navController, allUsers, group)
     }
 }
 

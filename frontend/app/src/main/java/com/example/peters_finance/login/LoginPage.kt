@@ -87,7 +87,6 @@ fun Information(
     var password by remember { mutableStateOf("") }
 
     Text(text = "LOGIN", fontSize = 25.sp)
-    // TODO: Make text field save data, for use when viewing account page
     OutlinedTextField(
         value = username,
         onValueChange = { usernameInput -> username = usernameInput },

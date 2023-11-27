@@ -140,12 +140,10 @@ fun AccountInfo(
 ) {
     CustomTheme {
 
-
         //styling
         val infoFontSize = 16.sp
         val spacing = 8.dp
 
-        //TODO Make it fetch these two values from the actual user
         val accountNameLabel = currentUser?.username
         val phoneNumberLabel = currentUser?.phone_number
 
