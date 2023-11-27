@@ -20,11 +20,10 @@ data class Group(
     var expenses: MutableList<Expense>? = null
 )
 
-//TODO: Use the map to calculate the amount each user owes, get the payers from the group
 data class Expense(
     var name: String,
     var description: String,
     var amount: Number = 0,
     var payers: MutableList<User>,
-    var split: MutableMap<User, Number>? = null,
+    var split: MutableMap<User, Number>,
 )

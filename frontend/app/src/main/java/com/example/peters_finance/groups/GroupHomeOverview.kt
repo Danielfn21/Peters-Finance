@@ -180,6 +180,8 @@ fun groupGenerator(
         }
     }
 
+    //TODO: Add functionality that allows for adding other users to the group upon creation
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

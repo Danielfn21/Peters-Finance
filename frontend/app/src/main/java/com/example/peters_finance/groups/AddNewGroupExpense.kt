@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,7 +31,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,7 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
@@ -136,7 +133,7 @@ private fun AddNewGroupExpense(
 
     //Fetch these values from current group
     var groupName by remember { mutableStateOf("") }
-    var totalAmount by remember { mutableStateOf("0.0") }
+    var totalAmount by remember { mutableStateOf("0") }
     var groupDescription by remember { mutableStateOf("") }
 
     Text(
@@ -182,15 +179,49 @@ private fun AddNewGroupExpense(
 
     Spacer(modifier = Modifier.size(20.dp))
 
-    var tempExpense = Expense(
-        groupName,
-        groupDescription,
-        totalAmount.toDouble(),
-        group?.members?.toMutableList() ?: mutableListOf(),
-    )
+    var tempExpense: Expense? = null
+    try {
+        tempExpense = Expense(
+            groupName,
+            groupDescription,
+            totalAmount.toInt(),
+            group?.members?.toMutableList() ?: mutableListOf(),
+            emptyMap<User, Number>().toMutableMap()
+        )
+    } catch (e: Exception) {
+        println("Error: ${e.message}")
+    }
+
 
     Button(
         onClick = {
+            val totalAmountInput = totalAmount.toInt()
+
+
+            // Distribute the total amount evenly among payers
+            val evenlyDistributedAmount: Number
+            if (group?.members?.size!! <= 1 || totalAmountInput == 0) {
+                evenlyDistributedAmount = 0
+            } else {
+                evenlyDistributedAmount = totalAmountInput / (group.members.size - 1)
+            }
+
+            val updatedPayers: MutableMap<User, Number>? = tempExpense?.split
+            if (tempExpense != null && updatedPayers != null) {
+                for (payer in tempExpense.payers) {
+                    updatedPayers[payer] = evenlyDistributedAmount
+                }
+            }
+            updatedPayers?.set(user!!, 0)
+
+            // Update the Expense data class
+            if (tempExpense != null) {
+                tempExpense.name = groupName
+                tempExpense.description = groupDescription
+                tempExpense.amount = totalAmount.toInt()
+                tempExpense.split = updatedPayers?.toMutableMap()!!
+            }
+
 
         },
         colors = ButtonDefaults.buttonColors(
@@ -238,20 +269,22 @@ private fun AddNewGroupExpense(
 
 private fun addExpense(
     group: Group?,
-    expense: Expense
+    expense: Expense?
 ) {
     //TODO: Add new Expense to group
 }
 
+
+//This is broken somehow, I give up for now
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Payers(
     user: User?,
     group: Group?,
-    tempExpense: Expense,
+    tempExpense: Expense?,
 ) {
 
-    val maxNumberDigits = 5
+    val maxDigits = 5
 
     group?.members?.forEach { member ->
 
@@ -263,36 +296,24 @@ private fun Payers(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (member == user) {
-                var amount by remember { mutableStateOf("0.0") }
+            val isCurrentUser = member == user
+            val amountFromExpense = tempExpense?.split?.get(member)?.toString() ?: "0"
+            var amount by remember { mutableStateOf(amountFromExpense) }
 
-                Text("You", modifier = Modifier.padding(5.dp))
-                OutlinedTextField(
-                    value = amount,
-                    onValueChange = {
-                        if (it.isDigitsOnly() && it.length <= maxNumberDigits) amount = it
-                    },
-                    modifier = Modifier.width(100.dp),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                )
-            } else {
-                var amountFromExpense = tempExpense.amount.toDouble() / (group.members.size - 1)
-                var amount by remember { mutableStateOf(amountFromExpense.toString()) }
-
-                Text(member.username, modifier = Modifier.padding(5.dp))
-                OutlinedTextField(
-                    value = amount,
-                    onValueChange = {
-                        if (it.isDigitsOnly() && it.length <= maxNumberDigits) amount = it
-                    },
-                    modifier = Modifier.width(100.dp),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                )
-            }
-
-
+            Text(if (isCurrentUser) "You" else member.username, modifier = Modifier.padding(5.dp))
+            OutlinedTextField(
+                value = amount,
+                onValueChange = {
+                    if (it.isDigitsOnly() && it.length <= maxDigits) {
+                        amount = it
+                        // Update the tempExpense split map
+                        tempExpense?.split?.put(member, it.toInt())
+                    }
+                },
+                modifier = Modifier.width(100.dp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+            )
         }
     }
 }

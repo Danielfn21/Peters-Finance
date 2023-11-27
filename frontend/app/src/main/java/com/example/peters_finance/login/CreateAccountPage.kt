@@ -71,7 +71,6 @@ fun createUser(
         return null
     }
 
-    //TODO: Add this new User to allUsers
     return User(accountName, phoneNumber, password);
 
 }
