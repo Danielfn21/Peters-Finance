@@ -35,7 +35,8 @@ import com.example.peters_finance.models.User
 @Composable
 fun CreateAccountPage(
     navController: NavController,
-    newUser: (User?) -> Unit
+    newUser: (User?) -> Unit,
+    allUsers: MutableList<User>,
 ) {
     Column(
         modifier = Modifier
@@ -50,7 +51,7 @@ fun CreateAccountPage(
             contentDescription = "Logo",
             modifier = Modifier.size(200.dp)
         )
-        AccountInformation(navController, newUser)
+        AccountInformation(navController, newUser,allUsers)
     }
 }
 
@@ -72,6 +73,7 @@ fun createUser(
 
     //TODO: Add this new User to allUsers
     return User(accountName, phoneNumber, password);
+
 }
 
 
@@ -79,7 +81,8 @@ fun createUser(
 @Composable
 fun AccountInformation(
     navController: NavController,
-    newUser: (User?) -> Unit
+    newUser: (User?) -> Unit,
+    allUsers: MutableList<User>
 ) {
     val loginFontSize = 17.sp
     val textFontSize = 14.sp
@@ -118,6 +121,9 @@ fun AccountInformation(
         onClick = {
             var user = createUser(phoneNumber, accountName, password, repeatPassword)
             if (user != null) {
+                // Add the newly created user to the allUsers list
+                allUsers.add(user)
+
                 newUser(user)
                 navController.navigate("GroupHomeOverview")
             }

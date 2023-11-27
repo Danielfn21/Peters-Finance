@@ -28,6 +28,7 @@ fun AppNavigation() {
 
     //Grab all users stored in the database
     var allUsers = mutableListOf<User>()
+
     LaunchedEffect(true) {
         allUsers.addAll(fetchUsers())
     }
@@ -47,8 +48,9 @@ fun AppNavigation() {
         composable("CreateAccountPage") {
             CreateAccountPage(navController, newUser = { newUser ->
                 currentUser.value = newUser
-            })
+            }, allUsers = allUsers)
         }
+
 
         composable("GroupHomeOverview") {
             GroupHomeOverview(navController, currentUser.value, setGroup = { setGroup ->

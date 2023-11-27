@@ -55,7 +55,6 @@ fun LoginPage(
     }
 }
 
-//TDOO: Add newly created user to allUsers list
 fun loginUser(
     username: String,
     password: String,
