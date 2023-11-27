@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import androidx.navigation.NavController
+import com.example.peters_finance.models.Expense
 import com.example.peters_finance.models.Group
 import com.example.peters_finance.models.User
 
@@ -127,16 +128,30 @@ private fun AddNewGroupExpense(
     user: User?,
     group: Group?
 ) {
-    val textPadding = 10.dp
+    val textPadding = 6.dp
     val textFontSize = 18.sp
 
     val maxAmountDigits = 9
+    val maxNameLength = 25
 
     //Fetch these values from current group
+    var groupName by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("0") }
     var groupDescription by remember { mutableStateOf("") }
 
-
+    Text(
+        text = "Name:",
+        fontSize = textFontSize,
+        modifier = Modifier.padding(textPadding)
+    )
+    OutlinedTextField(
+        value = groupName,
+        onValueChange = {
+            if (it.length <= maxNameLength) groupName = it
+        },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true
+    )
     Text(
         text = "Total Amount:",
         fontSize = textFontSize,
@@ -179,6 +194,13 @@ private fun AddNewGroupExpense(
         Text("Share evenly", fontSize = textFontSize)
     }
 
+    var tempExpense = Expense(
+        groupName,
+        groupDescription,
+        amount.toDouble(),
+        group?.members?.toMutableList() ?: mutableListOf(),
+    )
+
     Spacer(modifier = Modifier.size(30.dp))
 
     Box(
@@ -204,7 +226,7 @@ private fun AddNewGroupExpense(
     Spacer(modifier = Modifier.size(20.dp))
 
     Button(
-        onClick = { addExpense(group) },
+        onClick = { addExpense(group, tempExpense) },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
@@ -215,7 +237,8 @@ private fun AddNewGroupExpense(
 }
 
 private fun addExpense(
-    group: Group?
+    group: Group?,
+    expense: Expense
 ) {
     //TODO: Add new Expense to group
 }
@@ -243,9 +266,9 @@ private fun Payers(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (member == user) {
-                Text("You")
+                Text("You", modifier = Modifier.padding(5.dp))
             } else {
-                Text(member.username)
+                Text(member.username, modifier = Modifier.padding(5.dp))
             }
 
             OutlinedTextField(
