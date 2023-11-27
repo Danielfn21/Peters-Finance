@@ -88,7 +88,8 @@ fun GroupDisplayer(navController: NavController, group: Group?) {
         modifier = Modifier
             .fillMaxWidth()
             .height(120.dp)
-            .padding(10.dp),
+            .padding(10.dp)
+            .background(Color.Gray),
         shape = RoundedCornerShape(16.dp),
         onClick = {
             navController.navigate("splash")
@@ -209,42 +210,10 @@ fun PopUp(
                         Text("Create Group")
                     }
                 }
-
-
             }
-
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
