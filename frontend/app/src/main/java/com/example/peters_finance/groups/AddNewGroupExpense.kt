@@ -90,7 +90,7 @@ private fun TopBar(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            navController.navigate("ViewExpensePage")
+                            navController.popBackStack()
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -136,7 +136,7 @@ private fun AddNewGroupExpense(
 
     //Fetch these values from current group
     var groupName by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("0") }
+    var totalAmount by remember { mutableStateOf("0.0") }
     var groupDescription by remember { mutableStateOf("") }
 
     Text(
@@ -158,9 +158,9 @@ private fun AddNewGroupExpense(
         modifier = Modifier.padding(textPadding)
     )
     OutlinedTextField(
-        value = amount,
+        value = totalAmount,
         onValueChange = {
-            if (it.isDigitsOnly() && it.length <= maxAmountDigits) amount = it
+            if (it.isDigitsOnly() && it.length <= maxAmountDigits) totalAmount = it
         },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -182,9 +182,16 @@ private fun AddNewGroupExpense(
 
     Spacer(modifier = Modifier.size(20.dp))
 
+    var tempExpense = Expense(
+        groupName,
+        groupDescription,
+        totalAmount.toDouble(),
+        group?.members?.toMutableList() ?: mutableListOf(),
+    )
+
     Button(
         onClick = {
-            //TODO: divide the total amount value by amount of group members, possibly exclude yourself(?)
+
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
@@ -193,13 +200,6 @@ private fun AddNewGroupExpense(
     ) {
         Text("Share evenly", fontSize = textFontSize)
     }
-
-    var tempExpense = Expense(
-        groupName,
-        groupDescription,
-        amount.toDouble(),
-        group?.members?.toMutableList() ?: mutableListOf(),
-    )
 
     Spacer(modifier = Modifier.size(30.dp))
 
@@ -218,12 +218,12 @@ private fun AddNewGroupExpense(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            Payers(user, group)
+            Payers(user, group, tempExpense)
 
         }
     }
 
-    Spacer(modifier = Modifier.size(20.dp))
+    Spacer(modifier = Modifier.size(10.dp))
 
     Button(
         onClick = { addExpense(group, tempExpense) },
@@ -232,7 +232,7 @@ private fun AddNewGroupExpense(
             contentColor = Color.Black
         )
     ) {
-        Text("Add Expense", fontSize = textFontSize)
+        Text("Add Expense", fontSize = textFontSize, modifier = Modifier.padding(textPadding))
     }
 }
 
@@ -247,15 +247,13 @@ private fun addExpense(
 @Composable
 private fun Payers(
     user: User?,
-    group: Group?
+    group: Group?,
+    tempExpense: Expense,
 ) {
 
     val maxNumberDigits = 5
 
     group?.members?.forEach { member ->
-
-        //TODO: Get this value out somehow, possibly make a temp Expense/Map to add them to?
-        var amount by remember { mutableStateOf("0") }
 
         Row(
             modifier = Modifier
@@ -266,20 +264,34 @@ private fun Payers(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (member == user) {
+                var amount by remember { mutableStateOf("0.0") }
+
                 Text("You", modifier = Modifier.padding(5.dp))
+                OutlinedTextField(
+                    value = amount,
+                    onValueChange = {
+                        if (it.isDigitsOnly() && it.length <= maxNumberDigits) amount = it
+                    },
+                    modifier = Modifier.width(100.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                )
             } else {
+                var amountFromExpense = tempExpense.amount.toDouble() / (group.members.size - 1)
+                var amount by remember { mutableStateOf(amountFromExpense.toString()) }
+
                 Text(member.username, modifier = Modifier.padding(5.dp))
+                OutlinedTextField(
+                    value = amount,
+                    onValueChange = {
+                        if (it.isDigitsOnly() && it.length <= maxNumberDigits) amount = it
+                    },
+                    modifier = Modifier.width(100.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                )
             }
 
-            OutlinedTextField(
-                value = amount,
-                onValueChange = {
-                    if (it.isDigitsOnly() && it.length <= maxNumberDigits) amount = it
-                },
-                modifier = Modifier.width(100.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
-            )
 
         }
     }

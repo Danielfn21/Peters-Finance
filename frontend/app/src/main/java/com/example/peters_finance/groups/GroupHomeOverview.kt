@@ -63,7 +63,7 @@ fun GroupHomeOverview(
         ) {
             Button(
                 onClick = {
-                    navController.navigate("AccountPage")
+                    navController.popBackStack()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
@@ -125,7 +125,7 @@ fun GroupCardGenerator(
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(140.dp)
             .padding(10.dp),
         shape = RoundedCornerShape(16.dp),
         onClick = {

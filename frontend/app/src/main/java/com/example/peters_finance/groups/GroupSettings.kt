@@ -85,7 +85,7 @@ private fun TopBar(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            navController.navigate("GroupChat")
+                            navController.popBackStack()
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)

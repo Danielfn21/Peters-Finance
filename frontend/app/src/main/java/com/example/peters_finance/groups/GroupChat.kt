@@ -70,7 +70,7 @@ private fun TopBar(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            navController.navigate("GroupHomeOverview")
+                            navController.popBackStack()
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
