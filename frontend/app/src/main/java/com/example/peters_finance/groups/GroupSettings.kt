@@ -171,30 +171,36 @@ fun GroupInfo(
     ) {
         Button(
             onClick = {
-
+                newGroupName = ""
+                newGroupDescription = ""
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFDC143C),
                 contentColor = Color.Black
             )
         ) {
-            Text(text = "Discard\nchanges", fontSize = textFontSize)
+            Text(text = "Discard changes", fontSize = textFontSize)
         }
 
         Button(
             onClick = {
+                if (newGroupName.isNotEmpty()) group?.name = newGroupName
 
+                if (newGroupDescription.isNotEmpty()) group?.description = newGroupDescription
+
+                //This is dumb, but it forces the recomposition of the page
+                navController.navigate("GroupSettings")
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF228B22),
                 contentColor = Color.Black
             )
         ) {
-            Text(text = "Save\nchanges", fontSize = textFontSize)
+            Text(text = "Save changes", fontSize = textFontSize)
         }
     }
 
-    Spacer(modifier = Modifier.size(20.dp))
+    Spacer(modifier = Modifier.size(14.dp))
 
     MemberOverview(group, navController)
 
@@ -235,7 +241,12 @@ fun MemberOverview(
             }
 
             Button(
-                onClick = { addUserToGroup() },
+                onClick = {
+                    addUserToGroup()
+
+                    //This is dumb, but it forces the recomposition of the page
+                    navController.navigate("GroupSettings")
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF228B22),
                     contentColor = Color.Black
