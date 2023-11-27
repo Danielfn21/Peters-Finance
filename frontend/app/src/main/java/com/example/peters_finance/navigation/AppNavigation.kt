@@ -51,7 +51,6 @@ fun AppNavigation() {
             }, allUsers = allUsers)
         }
 
-
         composable("GroupHomeOverview") {
             GroupHomeOverview(navController, currentUser.value, setGroup = { setGroup ->
                 currentGroup.value = setGroup
