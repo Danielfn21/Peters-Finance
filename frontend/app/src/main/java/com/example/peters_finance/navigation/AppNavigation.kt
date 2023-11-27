@@ -24,9 +24,9 @@ fun AppNavigation() {
     var currentGroup = remember{ mutableStateOf<Group?>(null) }
 
     //Grab all users stored in the database
-    var allUsers = emptyList<User>()
+    var allUsers = mutableListOf<User>()
     LaunchedEffect(true){
-        allUsers = fetchUsers()
+        allUsers.addAll(fetchUsers())
     }
 
     val navController = rememberNavController()

@@ -35,7 +35,7 @@ import com.example.peters_finance.models.User
 @Composable
 fun LoginPage(
     navController: NavController,
-    allUsers: List<User>,
+    allUsers: MutableList<User>,
     fetchUser: (User) -> Unit
 ) {
     Column(

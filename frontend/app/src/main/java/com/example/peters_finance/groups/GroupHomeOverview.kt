@@ -100,7 +100,7 @@ fun GroupHomeOverview(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             user?.groups?.forEach { group ->
-                GroupDisplayer(navController, group, setGroup)
+                GroupCardGenerator(navController, group, setGroup)
             }
         }
 
@@ -111,7 +111,7 @@ fun GroupHomeOverview(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupDisplayer(
+fun GroupCardGenerator(
     navController: NavController,
     group: Group?,
     setGroup: (Group?) -> Unit

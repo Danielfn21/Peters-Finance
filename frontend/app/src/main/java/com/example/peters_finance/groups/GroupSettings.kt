@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -38,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.peters_finance.models.Group
 import com.example.peters_finance.models.User
@@ -46,7 +48,7 @@ import com.example.peters_finance.models.User
 @Composable
 fun GroupSettings(
     navController: NavController,
-    allUsers: List<User>,
+    allUsers: MutableList<User>,
     group: Group?
 ) {
 
@@ -64,7 +66,7 @@ fun GroupSettings(
 @Composable
 private fun TopBar(
     navController: NavController,
-    allUsers: List<User>,
+    allUsers: MutableList<User>,
     group: Group?,
 ) {
     Scaffold(
@@ -99,7 +101,7 @@ private fun TopBar(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            GroupInfo(group, navController)
+            GroupInfo(group, allUsers, navController)
         }
     }
 }
@@ -108,6 +110,7 @@ private fun TopBar(
 @Composable
 fun GroupInfo(
     group: Group?,
+    allUsers: MutableList<User>,
     navController: NavController
 ) {
     val textPadding = 6.dp
@@ -202,13 +205,14 @@ fun GroupInfo(
 
     Spacer(modifier = Modifier.size(14.dp))
 
-    MemberOverview(group, navController)
+    MemberOverview(group, allUsers, navController)
 
 }
 
 @Composable
 fun MemberOverview(
     group: Group?,
+    allUsers: MutableList<User>,
     navController: NavController
 ) {
     val textPadding = 6.dp
@@ -240,26 +244,98 @@ fun MemberOverview(
                 MemberEntry(user, group, navController)
             }
 
-            Button(
-                onClick = {
-                    addUserToGroup()
-
-                    //This is dumb, but it forces the recomposition of the page
-                    navController.navigate("GroupSettings")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF228B22),
-                    contentColor = Color.Black
-                )
-            ) {
-                Text("Add more", fontSize = textFontSize)
-            }
+            AddUserPopUp(navController, allUsers, group)
         }
 
     }
 }
 
-fun addUserToGroup() {
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddUserPopUp(
+    navController: NavController,
+    allUsers: MutableList<User>,
+    group: Group?
+) {
+
+    var popupControl by remember { mutableStateOf(false) }
+
+    Button(
+        onClick = {
+            popupControl = true
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF228B22),
+            contentColor = Color.Black
+        )
+    ) {
+        Text("Add new user", fontSize = 14.sp)
+    }
+
+    if (popupControl) {
+
+        Dialog(onDismissRequest = { popupControl = false }) {
+
+            val cardPadding = 10.dp
+
+            var userPhoneNumber by remember {
+                mutableStateOf("")
+            }
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(cardPadding),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.LightGray
+                )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp)
+                        .background(Color.LightGray),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    OutlinedTextField(
+                        value = userPhoneNumber,
+                        onValueChange = { userPhoneNumberInput ->
+                            userPhoneNumber = userPhoneNumberInput
+                        },
+                        label = { Text("User phone number") },
+                        singleLine = true
+                    )
+                    Button(
+                        onClick = {
+                            //Checks if phone number is in allUsers
+                            for (user in allUsers) {
+                                if (user.phone_number == userPhoneNumber && group != null) {
+
+                                    /*TODO: Implement second checker to see if user is already
+                                     * in group and vice versa*/
+
+                                    user.groups?.add(group)
+                                    group.members.add(user)
+                                    popupControl = false
+                                    navController.navigate("GroupSettings")
+                                }
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF228B22),
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Text("Add user")
+                    }
+
+                }
+            }
+        }
+
+    }
 
 }
 
