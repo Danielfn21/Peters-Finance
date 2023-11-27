@@ -27,9 +27,9 @@ class MainActivity : ComponentActivity() {
             var currentUser = remember{ mutableStateOf<User?>(null) }
 
             //Grab all users stored in the database
-            var backendUsers = emptyList<User>()
+            var allUsers = emptyList<User>()
             LaunchedEffect(true){
-                backendUsers = fetchUsers()
+                allUsers = fetchUsers()
             }
 
             val navController = rememberNavController()
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable("LoginPage") {
-                    LoginPage(navController, backendUsers, fetchUser = { fetchUser ->
+                    LoginPage(navController, allUsers, fetchUser = { fetchUser ->
                         currentUser.value = fetchUser
                     })
                 }

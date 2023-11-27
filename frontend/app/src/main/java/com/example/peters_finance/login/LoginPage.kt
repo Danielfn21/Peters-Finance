@@ -14,7 +14,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,14 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
-import com.example.peters_finance.api.fetchUsers
 import com.example.peters_finance.models.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginPage(
     navController: NavController,
-    backendUsers: List<User>,
+    allUsers: List<User>,
     fetchUser: (User) -> Unit
 ) {
     Column(
@@ -51,17 +49,18 @@ fun LoginPage(
             contentDescription = "Logo",
             modifier = Modifier.size(200.dp)
         )
-        Information(navController, backendUsers, fetchUser)
+        Information(navController, allUsers, fetchUser)
     }
 }
 
+//TDOO: Add newly created user to allUsers list
 fun loginUser(
     username: String,
     password: String,
-    backendUsers: List<User>
+    allUsers: List<User>
 ): User? {
 
-    for (user in backendUsers) {
+    for (user in allUsers) {
         if (user.username == username && user.password == password) {
             return user
         }
@@ -73,7 +72,7 @@ fun loginUser(
 @Composable
 fun Information(
     navController: NavController,
-    backendUsers: List<User>,
+    allUsers: List<User>,
     fetchUser: (User) -> Unit
 ) {
     val loginFontSize = 17.sp
@@ -108,7 +107,7 @@ fun Information(
         ) {
         Button(
             onClick = {
-                var user = loginUser(username, password, backendUsers)
+                var user = loginUser(username, password, allUsers)
                 if (user != null) {
                     fetchUser(user)
                     navController.navigate("GroupHomeOverview")

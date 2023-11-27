@@ -9,15 +9,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -38,10 +42,6 @@ import androidx.navigation.NavController
 import com.example.peters_finance.R
 import com.example.peters_finance.models.User
 
-/*TODO: Move this into a appropriate folder later,
-   More importantly resize everything so it actually fits
-   on a normal sized phone, apparently fillMaxSize() is too tall
-   */
 
 @Composable
 fun AccountPage(
@@ -60,8 +60,23 @@ fun AccountPage(
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-
-        Spacer(modifier = Modifier.size(30.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Button(
+                onClick = {
+                    navController.navigate("GroupHomeOverview")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                )
+            ) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+            }
+        }
 
         Card(
             modifier = Modifier
