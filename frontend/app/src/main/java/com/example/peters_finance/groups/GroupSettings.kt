@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +27,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -99,7 +99,7 @@ private fun TopBar(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            GroupInfo(group)
+            GroupInfo(group, navController)
         }
     }
 }
@@ -107,9 +107,10 @@ private fun TopBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupInfo(
-    group: Group?
+    group: Group?,
+    navController: NavController
 ) {
-    val textPadding = 10.dp
+    val textPadding = 6.dp
     val textFontSize = 14.sp
 
     val maxGroupNameChars = 25
@@ -146,8 +147,8 @@ fun GroupInfo(
     )
     OutlinedTextField(
         value = newGroupDescription,
-        onValueChange = {
-            descriptionInput -> newGroupDescription = descriptionInput
+        onValueChange = { descriptionInput ->
+            newGroupDescription = descriptionInput
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -158,6 +159,54 @@ fun GroupInfo(
             }
         }
     )
+
+    Spacer(modifier = Modifier.size(10.dp))
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 15.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(
+            onClick = {
+
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFDC143C),
+                contentColor = Color.Black
+            )
+        ) {
+            Text(text = "Discard\nchanges", fontSize = textFontSize)
+        }
+
+        Button(
+            onClick = {
+
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF228B22),
+                contentColor = Color.Black
+            )
+        ) {
+            Text(text = "Save\nchanges", fontSize = textFontSize)
+        }
+    }
+
+    Spacer(modifier = Modifier.size(20.dp))
+
+    MemberOverview(group, navController)
+
+}
+
+@Composable
+fun MemberOverview(
+    group: Group?,
+    navController: NavController
+) {
+    val textPadding = 6.dp
+    val textFontSize = 14.sp
 
     Text(
         text = "Members:",
@@ -172,6 +221,7 @@ fun GroupInfo(
         )
     ) {
 
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -180,10 +230,12 @@ fun GroupInfo(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            MemberEntry()
+            for (user in group?.members!!) {
+                MemberEntry(user, group, navController)
+            }
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { addUserToGroup() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF228B22),
                     contentColor = Color.Black
@@ -194,36 +246,49 @@ fun GroupInfo(
         }
 
     }
+}
 
-    Spacer(modifier = Modifier.size(100.dp))
-
-    Button(
-        onClick = { println("save") },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Gray,
-            contentColor = Color.Black,
-
-            )
-    ) {
-        Text("Save Changes", fontSize = textFontSize)
-    }
-
-    Text("OR", fontSize = textFontSize, modifier = Modifier.padding(textPadding))
-
-    Button(
-        onClick = { println("discard") },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Gray,
-            contentColor = Color.Black
-        )
-    ) {
-        Text("Discard Changes", fontSize = textFontSize)
-    }
+fun addUserToGroup() {
 
 }
 
 @Composable
-fun MemberEntry() {
-    //TODO: Generator that adds 'User's to to this
-    Text("Bob Johnson")
+fun MemberEntry(
+    user: User?,
+    group: Group?,
+    navController: NavController
+) {
+    var removalText by remember {
+        mutableStateOf("Remove")
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+            .background(Color.LightGray),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(user?.username.toString())
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Button(
+            onClick = {
+                user?.groups?.remove(group)
+                group?.members?.remove(user)
+                removalText = "Removed"
+
+                //This is dumb, but it forces the recomposition of the page
+                navController.navigate("GroupSettings")
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFDC143C),
+                contentColor = Color.Black
+            )
+        ) {
+            Text(removalText, modifier = Modifier.padding(8.dp))
+        }
+    }
 }

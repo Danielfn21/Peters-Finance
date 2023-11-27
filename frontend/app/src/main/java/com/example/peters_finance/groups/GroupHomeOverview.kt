@@ -172,12 +172,13 @@ fun groupGenerator(
 
     user?.let {
         //Adds the logged in user to the newly created group
-        newGroup.members = listOf(it)
+        newGroup.members = mutableListOf(it)
 
         //Adds the newly created group to the logged in user
-        it.groups = (it.groups ?: emptyList()) + newGroup
+        it.groups = (it.groups ?: emptyList()).toMutableList().apply {
+            add(newGroup)
+        }
     }
-
 
 }
 

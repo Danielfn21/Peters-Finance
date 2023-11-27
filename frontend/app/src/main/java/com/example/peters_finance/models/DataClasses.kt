@@ -5,13 +5,13 @@ data class User(
     var phone_number: String,
     var password: String,
     var notifications: Boolean = true,
-    var groups: List<Group>? = null
+    var groups: MutableList<Group>? = null
 )
 
 data class Group(
     var name: String,
     var description: String,
-    var members: List<User>,
+    var members: MutableList<User>,
     var expenses: Expense? = null
 )
 
@@ -19,5 +19,5 @@ data class Expense(
     var name: String,
     var amount: Number = 0,
     var payer: User,
-    var split: List<User>
+    var split: MutableList<User>
 )
