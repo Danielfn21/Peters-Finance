@@ -46,7 +46,8 @@ import com.example.peters_finance.models.User
 @Composable
 fun GroupHomeOverview(
     navController: NavController,
-    user: User?
+    user: User?,
+    setGroup: (Group?) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -99,7 +100,7 @@ fun GroupHomeOverview(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             user?.groups?.forEach { group ->
-                GroupDisplayer(navController, group)
+                GroupDisplayer(navController, group, setGroup)
             }
         }
 
@@ -110,7 +111,13 @@ fun GroupHomeOverview(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupDisplayer(navController: NavController, group: Group?) {
+fun GroupDisplayer(
+    navController: NavController,
+    group: Group?,
+    setGroup: (Group?) -> Unit
+) {
+
+    val textPadding = 5.dp
 
     Card(
         colors = CardDefaults.cardColors(
@@ -122,7 +129,8 @@ fun GroupDisplayer(navController: NavController, group: Group?) {
             .padding(10.dp),
         shape = RoundedCornerShape(16.dp),
         onClick = {
-            navController.navigate("splash")
+            setGroup(group)
+            navController.navigate("GroupChat")
         }
     ) {
         Column(
@@ -130,12 +138,24 @@ fun GroupDisplayer(navController: NavController, group: Group?) {
                 .padding(10.dp),
         ) {
             Row(horizontalArrangement = Arrangement.Start) {
-                Text("${group?.name}", fontSize = 20.sp)
+                Text(
+                    "${group?.name}",
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(textPadding)
+                )
             }
             Row(horizontalArrangement = Arrangement.Start) {
-                Text("${group?.description}")
+                Text(
+                    "${group?.description}",
+                    modifier = Modifier.padding(textPadding)
+                )
             }
-
+            Row(horizontalArrangement = Arrangement.Start) {
+                Text(
+                    "Member count: ${group?.members?.size}",
+                    modifier = Modifier.padding(textPadding)
+                )
+            }
         }
     }
 }
@@ -190,6 +210,8 @@ fun PopUp(
 
         Dialog(onDismissRequest = { popupControl = false }) {
 
+            val maxGroupNameChars = 25
+
             var groupName by remember { mutableStateOf("") }
             var groupDescription by remember { mutableStateOf("") }
 
@@ -216,7 +238,7 @@ fun PopUp(
                     Text(text = "Group name", modifier = Modifier.padding(cardPadding))
                     OutlinedTextField(
                         value = groupName,
-                        onValueChange = { groupNameInput -> groupName = groupNameInput },
+                        onValueChange = {  if (it.length <= maxGroupNameChars) groupName = it },
                     )
 
                     Text(text = "Group Description", modifier = Modifier.padding(cardPadding))

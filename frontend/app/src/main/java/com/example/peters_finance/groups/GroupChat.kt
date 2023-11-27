@@ -20,20 +20,27 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.peters_finance.models.Group
+import com.example.peters_finance.models.User
 
 
-@Preview
 @Composable
-fun GroupChat() {
+fun GroupChat(
+    navController: NavController,
+    currentUser: User?, //will be used in chat
+    group: Group?
+) {
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TopBar("Group name") //TODO: Fetch this from current group
+
+        TopBar(navController, group)
+
     }
 }
 
@@ -41,7 +48,8 @@ fun GroupChat() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    pageTitle: String
+    navController: NavController,
+    group: Group?
 ) {
     Scaffold(
         topBar = {
@@ -50,12 +58,14 @@ private fun TopBar(
                     containerColor = Color.Gray
                 ),
                 title = {
-                    Text(pageTitle)
+                    if (group != null) {
+                        Text(group.name)
+                    }
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            //TODO: nav back
+                            navController.navigate("GroupHomeOverview")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -64,7 +74,7 @@ private fun TopBar(
                 actions = {
                     IconButton(
                         onClick = {
-                            //TODO: nav settings page
+                            navController.navigate("GroupSettings")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Settings, contentDescription = null)
@@ -87,6 +97,6 @@ private fun TopBar(
 @Composable
 fun Chat() {
     Text(text = "EPIC CHATTING CURRENTLY ONGOING")
-    //Do the below tomorrow
+    //TODO: Do as below, dummy chat
     //https://medium.com/@meytataliti/building-a-simple-chat-app-with-jetpack-compose-883a240592d4
 }

@@ -4,6 +4,7 @@ data class User(
     var username: String,
     var phone_number: String,
     var password: String,
+    var notifications: Boolean = true,
     var groups: List<Group>? = null
 )
 

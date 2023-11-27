@@ -5,7 +5,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +22,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,20 +36,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.peters_finance.models.Group
+import com.example.peters_finance.models.User
 
-@Preview
+
 @Composable
-fun GroupSettings() {
+fun GroupSettings(
+    navController: NavController,
+    allUsers: List<User>,
+    group: Group?
+) {
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TopBar("the zaza cookout xtreme edition") //TODO: Fetch this from current group
+        TopBar(navController, allUsers, group) //TODO: Fetch this from current group
     }
 }
 
@@ -57,7 +63,9 @@ fun GroupSettings() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    pageTitle: String
+    navController: NavController,
+    allUsers: List<User>,
+    group: Group?,
 ) {
     Scaffold(
         topBar = {
@@ -66,12 +74,14 @@ private fun TopBar(
                     containerColor = Color.Gray
                 ),
                 title = {
-                    Text(pageTitle)
+                    if (group != null) {
+                        Text(group.name)
+                    }
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            //TODO: nav back
+                            navController.navigate("GroupChat")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -89,22 +99,23 @@ private fun TopBar(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            GroupInfo()
+            GroupInfo(group)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupInfo() {
+fun GroupInfo(
+    group: Group?
+) {
     val textPadding = 10.dp
     val textFontSize = 14.sp
 
-    val maxGroupNameChars = 32
+    val maxGroupNameChars = 25
 
-    //Fetch these values from current group
-    var groupName by remember { mutableStateOf("the zaza cookout xtreme edition") }
-    var groupDescription by remember { mutableStateOf("BROTHER WE COOKING HELL YEAH BROTHER WE COOKING OOOOH YEAH BABY WITH JET FUEL CHINESE GATE TO HELL FIRE STOVE STYLE NAAN BREAD CEMENT WALL TYPE BEAT") }
+    var newGroupName by remember { mutableStateOf("") }
+    var newGroupDescription by remember { mutableStateOf("") }
 
 
     Text(
@@ -112,13 +123,20 @@ fun GroupInfo() {
         fontSize = textFontSize,
         modifier = Modifier.padding(textPadding)
     )
-    TextField(
-        value = groupName,
+    OutlinedTextField(
+        value = newGroupName,
         onValueChange = {
-            if (it.length <= maxGroupNameChars) groupName = it
+            if (it.length <= maxGroupNameChars) {
+                newGroupName = it
+            }
         },
         modifier = Modifier.fillMaxWidth(),
-        singleLine = true
+        singleLine = true,
+        label = {
+            if (group != null) {
+                Text(group.name)
+            }
+        }
     )
 
     Text(
@@ -126,12 +144,19 @@ fun GroupInfo() {
         fontSize = textFontSize,
         modifier = Modifier.padding(textPadding)
     )
-    TextField(
-        value = groupDescription,
-        onValueChange = { groupDescription = it },
+    OutlinedTextField(
+        value = newGroupDescription,
+        onValueChange = {
+            descriptionInput -> newGroupDescription = descriptionInput
+        },
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp)
+            .height(130.dp),
+        label = {
+            if (group != null) {
+                Text(group.description)
+            }
+        }
     )
 
     Text(
