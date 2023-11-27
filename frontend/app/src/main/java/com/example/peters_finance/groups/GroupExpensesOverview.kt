@@ -90,13 +90,15 @@ private fun TopBar(
                 .padding(15.dp)
         ) {
 
-            GroupExpenses()
+            GroupExpenses(group)
 
         }
     }
 }
 
 @Composable
-private fun GroupExpenses() {
-    //TODO: Generator for expenses tabs
+private fun GroupExpenses(
+    group: Group?
+) {
+    //TODO: Generator for expenses tabs, fetch these from group
 }
