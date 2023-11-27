@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +17,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -24,6 +28,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -58,7 +63,7 @@ fun AddNewGroupExpensePage(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TopBar(navController, user, group) //TODO: Fetch this from current group
+        TopBar(navController, user, group)
     }
 }
 
@@ -94,16 +99,20 @@ private fun TopBar(
         },
 
         ) {
+
+        val scrollState = rememberScrollState()
+
         Column(
             modifier = Modifier
                 .paddingFromBaseline(top = 88.dp)
                 .padding(horizontal = 30.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            Spacer(modifier = Modifier.size(100.dp))
+            Spacer(modifier = Modifier.size(40.dp))
 
             AddNewGroupExpense(navController, user, group)
 
@@ -133,7 +142,7 @@ private fun AddNewGroupExpense(
         fontSize = textFontSize,
         modifier = Modifier.padding(textPadding)
     )
-    TextField(
+    OutlinedTextField(
         value = amount,
         onValueChange = {
             if (it.isDigitsOnly() && it.length <= maxAmountDigits) amount = it
@@ -148,7 +157,7 @@ private fun AddNewGroupExpense(
         fontSize = textFontSize,
         modifier = Modifier.padding(textPadding)
     )
-    TextField(
+    OutlinedTextField(
         value = groupDescription,
         onValueChange = { groupDescription = it },
         modifier = Modifier
@@ -159,7 +168,9 @@ private fun AddNewGroupExpense(
     Spacer(modifier = Modifier.size(20.dp))
 
     Button(
-        onClick = { /*TODO*/ },
+        onClick = {
+            //TODO: divide the total amount value by amount of group members, possibly exclude yourself(?)
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
@@ -190,10 +201,10 @@ private fun AddNewGroupExpense(
         }
     }
 
-    Spacer(modifier = Modifier.size(60.dp))
+    Spacer(modifier = Modifier.size(20.dp))
 
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { addExpense(group) },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
@@ -203,10 +214,50 @@ private fun AddNewGroupExpense(
     }
 }
 
+private fun addExpense(
+    group: Group?
+) {
+    //TODO: Add new Expense to group
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Payers(
     user: User?,
     group: Group?
 ) {
 
+    val maxNumberDigits = 5
+
+    group?.members?.forEach { member ->
+
+        //TODO: Get this value out somehow, possibly make a temp Expense/Map to add them to?
+        var amount by remember { mutableStateOf("0") }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+                .background(Color.LightGray),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (member == user) {
+                Text("You")
+            } else {
+                Text(member.username)
+            }
+
+            OutlinedTextField(
+                value = amount,
+                onValueChange = {
+                    if (it.isDigitsOnly() && it.length <= maxNumberDigits) amount = it
+                },
+                modifier = Modifier.width(100.dp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+            )
+
+        }
+    }
 }

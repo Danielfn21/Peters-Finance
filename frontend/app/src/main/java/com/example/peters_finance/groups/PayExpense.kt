@@ -69,9 +69,7 @@ private fun TopBar(
                     containerColor = Color.Gray
                 ),
                 title = {
-                    if (group != null) {
-                        Text(group.name)
-                    }
+                        Text("PAYMENT")
                 },
                 navigationIcon = {
                     IconButton(
@@ -113,7 +111,9 @@ fun ExpenseInfo(
     val textPadding = 10.dp
 
 
-    Text("PAYMENT", fontSize = titleFontSize, modifier = Modifier.padding(textPadding))
+    if (group != null) {
+        Text(group.name, fontSize = titleFontSize, modifier = Modifier.padding(textPadding))
+    }
 
     Text("Total amount shared:", fontSize = textFontSize, modifier = Modifier.padding(textPadding))
     //TODO: Use currentExpense for this, see AppNavigation()
