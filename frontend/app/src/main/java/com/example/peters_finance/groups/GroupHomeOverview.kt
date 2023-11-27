@@ -1,5 +1,6 @@
 package com.example.peters_finance.groups
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -18,6 +20,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -30,10 +33,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.example.peters_finance.R
 import com.example.peters_finance.models.Group
 import com.example.peters_finance.models.User
 
@@ -52,10 +57,34 @@ fun GroupHomeOverview(
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "${user?.username}", Modifier.clickable {
-                navController.navigate("AccountPage")
-            })
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(
+                onClick = {
+                    navController.navigate("AccountPage")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                )
+            ) {
+                Image(
+                    painter = painterResource(
+                        id = R.drawable.placeholder_user
+                    ),
+                    contentDescription = "LTG",
+                    modifier = Modifier.size(22.dp)
+                )
+
+                Text(
+                    text = " ${user?.username}",
+                    fontSize = 22.sp,
+                    modifier = Modifier.clickable {
+                        navController.navigate("AccountPage")
+                    })
+            }
+
             Spacer(modifier = Modifier.weight(1f))
             PopUp(user, navController)
         }
@@ -65,7 +94,6 @@ fun GroupHomeOverview(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
                 .verticalScroll(state = scrollState),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,11 +113,13 @@ fun GroupHomeOverview(
 fun GroupDisplayer(navController: NavController, group: Group?) {
 
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = Color.LightGray
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .height(120.dp)
-            .padding(10.dp)
-            .background(Color.Gray),
+            .padding(10.dp),
         shape = RoundedCornerShape(16.dp),
         onClick = {
             navController.navigate("splash")
@@ -146,7 +176,11 @@ fun PopUp(
             contentColor = Color.Black
         )
     ) {
-        Icon(imageVector = Icons.Default.Add, contentDescription = null)
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = null,
+            modifier = Modifier.size(22.dp)
+        )
     }
     /*TODO: Issue here with dialog not dimming
        background on the emulator, if a physical
