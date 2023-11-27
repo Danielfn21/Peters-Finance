@@ -37,12 +37,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
 import com.example.peters_finance.models.User
+import com.example.peters_finance.ui.theme.CustomTheme
 
 
 @Composable
@@ -60,7 +60,7 @@ fun AccountPage(
             .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -107,24 +107,30 @@ fun saveChanges(
     newPassword: String,
     repeatNewPassword: String
 ) {
-
-    /*TODO: If someone has time: Make it so that it only updates the fields that are not empty,
-    *  instead of forcing changes in all fields. */
-    //Checks different cases
-    if (newAccountName.isEmpty() || newPhoneNumber.isEmpty() || newPassword.isEmpty() || repeatNewPassword.isEmpty()) {
+    // Checks if any of the fields are not empty
+    if (newAccountName.isEmpty() && newPhoneNumber.isEmpty() && newPassword.isEmpty() && repeatNewPassword.isEmpty()) {
         return
     }
 
-    //Checks if passwords match
+    // Checks if passwords match
     if (newPassword != repeatNewPassword) {
         return
     }
 
-    //Update user info
-    currentUser?.username = newAccountName
-    currentUser?.phone_number = newPhoneNumber
-    currentUser?.password = newPassword
+    // Update user info for non-empty fields
+    currentUser?.apply {
+        if (newAccountName.isNotEmpty()) {
+            username = newAccountName
+        }
+        if (newPhoneNumber.isNotEmpty()) {
+            phone_number = newPhoneNumber
+        }
+        if (newPassword.isNotEmpty()) {
+            password = newPassword
+        }
+    }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -132,157 +138,145 @@ fun AccountInfo(
     currentUser: User?,
     navController: NavController
 ) {
+    CustomTheme {
 
-    //styling
-    val infoFontSize = 16.sp
-    val spacing = 8.dp
 
-    //TODO Make it fetch these two values from the actual user
-    val accountNameLabel = currentUser?.username
-    val phoneNumberLabel = currentUser?.phone_number
+        //styling
+        val infoFontSize = 16.sp
+        val spacing = 8.dp
 
-    val passwordLabel = "*************"
+        //TODO Make it fetch these two values from the actual user
+        val accountNameLabel = currentUser?.username
+        val phoneNumberLabel = currentUser?.phone_number
 
-    //New values
-    var newAccountName by remember {
-        mutableStateOf("")
-    }
-    var newPhoneNumber by remember {
-        mutableStateOf("")
-    }
-    var newPassword by remember {
-        mutableStateOf("")
-    }
-    var repeatNewPassword by remember {
-        mutableStateOf("")
-    }
+        val passwordLabel = "*************"
 
-    Column(
-        horizontalAlignment = Alignment.Start,
-    ) {
-        Text(text = "Change account name:", fontSize = infoFontSize)
-        OutlinedTextField(
-            value = newAccountName,
-            onValueChange = { newAccountNameInput ->
-                newAccountName = newAccountNameInput
-            },
-            label = { Text(accountNameLabel.toString()) }
-        )
-
-        Spacer(modifier = Modifier.size(spacing))
-
-        Text(text = "Change phone number:", fontSize = infoFontSize)
-        OutlinedTextField(
-            value = newPhoneNumber,
-            onValueChange = { newPhoneNumberInput ->
-                newPhoneNumber = newPhoneNumberInput
-            },
-            label = { Text(phoneNumberLabel.toString()) }
-        )
-
-        Spacer(modifier = Modifier.size(spacing))
-
-        Text(text = "Change password:", fontSize = infoFontSize)
-        OutlinedTextField(
-            value = newPassword,
-            onValueChange = { newPasswordInput ->
-                newPassword = newPasswordInput
-            },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier.clickable { repeatNewPassword = "" },
-            label = { Text(passwordLabel) }
-        )
-
-        Spacer(modifier = Modifier.size(spacing))
-
-        Text(text = "Repeat new password:", fontSize = infoFontSize)
-        OutlinedTextField(
-            value = repeatNewPassword,
-            onValueChange = { repeatNewPasswordInput ->
-                repeatNewPassword = repeatNewPasswordInput
-            },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier.clickable { repeatNewPassword = "" },
-            label = { Text(passwordLabel) }
-        )
-
-        Spacer(modifier = Modifier.size(spacing))
-    }
-
-    var checked by remember {
-        mutableStateOf(true)
-    }
-    Row(
-        modifier = Modifier
-            .width(280.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = "Notifications:", fontSize = infoFontSize)
-
-        Switch(
-            checked = checked,
-            onCheckedChange = {
-                checked = it
-            }
-        )
-    }
-    Row(
-        modifier = Modifier
-            .width(280.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = "Dark mode:", fontSize = infoFontSize)
-
-        Switch(
-            checked = false,
-            onCheckedChange = {
-                checked = it
-            }
-        )
-    }
-
-    Row(
-        modifier = Modifier
-            .width(280.dp)
-            .padding(bottom = 15.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Button(
-            onClick = {
-                //This is dumb, but it forces the recomposition of the page
-                navController.navigate("AccountPage")
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFDC143C),
-                contentColor = Color.Black
-            )
-        ) {
-            Text(text = "Discard\nchanges", fontSize = infoFontSize)
+        //New values
+        var newAccountName by remember {
+            mutableStateOf("")
+        }
+        var newPhoneNumber by remember {
+            mutableStateOf("")
+        }
+        var newPassword by remember {
+            mutableStateOf("")
+        }
+        var repeatNewPassword by remember {
+            mutableStateOf("")
         }
 
-        Button(
-            onClick = {
-                saveChanges(
-                    currentUser,
-                    newAccountName,
-                    newPhoneNumber,
-                    newPassword,
-                    repeatNewPassword
-                )
-                //This is dumb, but it forces the recomposition of the page
-                navController.navigate("AccountPage")
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF228B22),
-                contentColor = Color.Black
-            )
+        Column(
+            horizontalAlignment = Alignment.Start,
         ) {
-            Text(text = "Save\nchanges", fontSize = infoFontSize)
+            Text(text = "Change account name:", fontSize = infoFontSize)
+            OutlinedTextField(
+                value = newAccountName,
+                onValueChange = { newAccountNameInput ->
+                    newAccountName = newAccountNameInput
+                },
+                label = { Text(accountNameLabel.toString()) }
+            )
+
+            Spacer(modifier = Modifier.size(spacing))
+
+            Text(text = "Change phone number:", fontSize = infoFontSize)
+            OutlinedTextField(
+                value = newPhoneNumber,
+                onValueChange = { newPhoneNumberInput ->
+                    newPhoneNumber = newPhoneNumberInput
+                },
+                label = { Text(phoneNumberLabel.toString()) }
+            )
+
+            Spacer(modifier = Modifier.size(spacing))
+
+            Text(text = "Change password:", fontSize = infoFontSize)
+            OutlinedTextField(
+                value = newPassword,
+                onValueChange = { newPasswordInput ->
+                    newPassword = newPasswordInput
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                modifier = Modifier.clickable { repeatNewPassword = "" },
+                label = { Text(passwordLabel) }
+            )
+
+            Spacer(modifier = Modifier.size(spacing))
+
+            Text(text = "Repeat new password:", fontSize = infoFontSize)
+            OutlinedTextField(
+                value = repeatNewPassword,
+                onValueChange = { repeatNewPasswordInput ->
+                    repeatNewPassword = repeatNewPasswordInput
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                modifier = Modifier.clickable { repeatNewPassword = "" },
+                label = { Text(passwordLabel) }
+            )
+
+            Spacer(modifier = Modifier.size(spacing))
+        }
+
+        var checked by remember {
+            mutableStateOf(true)
+        }
+        Row(
+            modifier = Modifier
+                .width(280.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = "Notifications:", fontSize = infoFontSize)
+
+            Switch(
+                checked = checked,
+                onCheckedChange = {
+                    checked = it
+                }
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .width(280.dp)
+                .padding(bottom = 15.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(
+                onClick = {
+                    //This is dumb, but it forces the recomposition of the page
+                    navController.navigate("AccountPage")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFDC143C),
+                    contentColor = Color.Black
+                )
+            ) {
+                Text(text = "Discard\nchanges", fontSize = infoFontSize)
+            }
+
+            Button(
+                onClick = {
+                    saveChanges(
+                        currentUser,
+                        newAccountName,
+                        newPhoneNumber,
+                        newPassword,
+                        repeatNewPassword
+                    )
+                    //This is dumb, but it forces the recomposition of the page
+                    navController.navigate("AccountPage")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF228B22),
+                    contentColor = Color.Black
+                )
+            ) {
+                Text(text = "Save\nchanges", fontSize = infoFontSize)
+            }
         }
     }
 }

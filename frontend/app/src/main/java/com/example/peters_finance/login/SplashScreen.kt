@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.peters_finance.R
-import com.example.peters_finance.ui.theme.Theme
+import com.example.peters_finance.ui.theme.CustomTheme
 
 
 @Composable
@@ -50,7 +50,7 @@ fun SplashOptions(
     navController: NavController
 ) {
     val spacing = 10.dp
-    Theme {
+    CustomTheme {
 
         StyledButton(text = "LOGIN", onClick = { navController.navigate("LoginPage") })
 
