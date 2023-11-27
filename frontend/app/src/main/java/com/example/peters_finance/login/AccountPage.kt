@@ -68,7 +68,7 @@ fun AccountPage(
         ) {
             Button(
                 onClick = {
-                    navController.popBackStack()
+                    navController.navigate("GroupHomeOverview")
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,

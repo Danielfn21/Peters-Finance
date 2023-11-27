@@ -70,7 +70,7 @@ private fun TopBar(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            navController.navigate("GroupChat")
+                            navController.navigate("GroupHomeOverview")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
