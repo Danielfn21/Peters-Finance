@@ -23,17 +23,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.peters_finance.models.Group
+import com.example.peters_finance.models.User
 
-@Preview
 @Composable
-fun GroupExpensesOverviewPage() {
+fun GroupExpensesOverviewPage(
+    navController: NavController,
+    user: User?,
+    group: Group?
+) {
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TopBar("Group name") //TODO: Fetch this from current group
+        TopBar(navController, user, group)
     }
 }
 
@@ -41,7 +47,9 @@ fun GroupExpensesOverviewPage() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    pageTitle: String
+    navController: NavController,
+    user: User?,
+    group: Group?
 ) {
     Scaffold(
         topBar = {
@@ -50,12 +58,14 @@ private fun TopBar(
                     containerColor = Color.Gray
                 ),
                 title = {
-                    Text(pageTitle)
+                    if (group != null) {
+                        Text(group.name)
+                    }
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            //TODO: nav back
+                            navController.navigate("GroupChat")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -64,7 +74,7 @@ private fun TopBar(
                 actions = {
                     IconButton(
                         onClick = {
-                            //TODO: nav settings page
+                            navController.navigate("AddExpensePage")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = null)

@@ -175,7 +175,7 @@ fun GroupInfo(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 15.dp),
+            .padding(15.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -189,7 +189,7 @@ fun GroupInfo(
                 contentColor = Color.Black
             )
         ) {
-            Text(text = "Discard changes", fontSize = textFontSize)
+            Text(text = "Discard \nchanges", fontSize = textFontSize)
         }
 
         Button(
@@ -206,7 +206,7 @@ fun GroupInfo(
                 contentColor = Color.Black
             )
         ) {
-            Text(text = "Save changes", fontSize = textFontSize)
+            Text(text = "Save \nchanges", fontSize = textFontSize)
         }
     }
 

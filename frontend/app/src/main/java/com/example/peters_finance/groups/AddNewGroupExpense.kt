@@ -42,17 +42,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
+import androidx.navigation.NavController
+import com.example.peters_finance.models.Group
+import com.example.peters_finance.models.User
 
-@Preview
 @Composable
-fun AddNewGroupExpensePage() {
+fun AddNewGroupExpensePage(
+    navController: NavController,
+    user: User?,
+    group: Group?
+) {
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TopBar("Add group expense") //TODO: Fetch this from current group
+        TopBar(navController, user, group) //TODO: Fetch this from current group
     }
 }
 
@@ -60,7 +66,9 @@ fun AddNewGroupExpensePage() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    pageTitle: String
+    navController: NavController,
+    user: User?,
+    group: Group?
 ) {
     Scaffold(
         topBar = {
@@ -69,12 +77,14 @@ private fun TopBar(
                     containerColor = Color.Gray
                 ),
                 title = {
-                    Text(pageTitle)
+                    if (group != null) {
+                        Text(group.name)
+                    }
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            //TODO: nav back
+                            navController.navigate("ViewExpensePage")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -95,7 +105,7 @@ private fun TopBar(
 
             Spacer(modifier = Modifier.size(100.dp))
 
-            AddNewGroupExpense()
+            AddNewGroupExpense(navController, user, group)
 
         }
     }
@@ -103,7 +113,11 @@ private fun TopBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddNewGroupExpense() {
+private fun AddNewGroupExpense(
+    navController: NavController,
+    user: User?,
+    group: Group?
+) {
     val textPadding = 10.dp
     val textFontSize = 18.sp
 
@@ -160,7 +174,7 @@ private fun AddNewGroupExpense() {
         modifier = Modifier
             .width(340.dp)
             .border(BorderStroke(2.dp, Color.Black)),
-    ){
+    ) {
 
 
         Column(
@@ -171,7 +185,7 @@ private fun AddNewGroupExpense() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            Payers()
+            Payers(user, group)
 
         }
     }
@@ -190,7 +204,9 @@ private fun AddNewGroupExpense() {
 }
 
 @Composable
-private fun Payers() {
-    //TODO: Generator that group members to box, with field for payment amount(s)
-    Text("Bob Johnson")
+private fun Payers(
+    user: User?,
+    group: Group?
+) {
+
 }

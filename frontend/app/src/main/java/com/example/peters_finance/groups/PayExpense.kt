@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -20,10 +19,10 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,20 +32,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.peters_finance.models.Group
+import com.example.peters_finance.models.User
 
-@Preview
 @Composable
-fun PayExpensePage() {
+fun PayExpensePage(
+    navController: NavController,
+    user: User?,
+    group: Group?
+) {
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        TopBar("Pay expense")
+        TopBar(navController, user, group)
     }
 }
 
@@ -54,7 +58,9 @@ fun PayExpensePage() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    pageTitle: String
+    navController: NavController,
+    user: User?,
+    group: Group?
 ) {
     Scaffold(
         topBar = {
@@ -63,12 +69,14 @@ private fun TopBar(
                     containerColor = Color.Gray
                 ),
                 title = {
-                    Text(pageTitle)
+                    if (group != null) {
+                        Text(group.name)
+                    }
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            //TODO: nav back
+                            navController.navigate("GroupChat")
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -87,7 +95,7 @@ private fun TopBar(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            ExpenseInfo()
+            ExpenseInfo(navController, user, group)
 
         }
     }
@@ -95,23 +103,30 @@ private fun TopBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpenseInfo() {
+fun ExpenseInfo(
+    navController: NavController,
+    user: User?,
+    group: Group?
+) {
     val titleFontSize = 40.sp
     val textFontSize = 14.sp
     val textPadding = 10.dp
 
-    Text("GROUP NAME", fontSize = titleFontSize, modifier = Modifier.padding(textPadding))
+
+    Text("PAYMENT", fontSize = titleFontSize, modifier = Modifier.padding(textPadding))
+
     Text("Total amount shared:", fontSize = textFontSize, modifier = Modifier.padding(textPadding))
+    //TODO: Use currentExpense for this, see AppNavigation()
     Text("AMOUNT", fontSize = textFontSize, modifier = Modifier.padding(textPadding))
 
     Button(
-        onClick = { println("discard") },
+        onClick = { println("add payer(? eibert plz)") },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
         )
     ) {
-        Text("Discard Changes", fontSize = textFontSize)
+        Text("Add payment", fontSize = textFontSize)
     }
 
 
@@ -119,7 +134,7 @@ fun ExpenseInfo() {
 
     var paymentMessage by remember { mutableStateOf("Get scammed fool") }
 
-    TextField(
+    OutlinedTextField(
         value = paymentMessage,
         onValueChange = { paymentMessage = it },
         modifier = Modifier
@@ -128,7 +143,7 @@ fun ExpenseInfo() {
     )
 
     Button(
-        onClick = { println("discard") },
+        onClick = { println("pay idk") },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Gray,
             contentColor = Color.Black
