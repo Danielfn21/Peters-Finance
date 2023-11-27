@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -92,12 +94,17 @@ private fun TopBar(
             )
         },
 
+
+
         ) {
+        val scrollState = rememberScrollState()
+
         Column(
             modifier = Modifier
                 .paddingFromBaseline(top = 88.dp)
                 .padding(horizontal = 40.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .verticalScroll(state = scrollState),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -357,7 +364,7 @@ fun MemberEntry(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(user?.username.toString())
+        Text(user?.username.toString(), modifier = Modifier.padding(6.dp))
 
         Spacer(modifier = Modifier.weight(1f))
 

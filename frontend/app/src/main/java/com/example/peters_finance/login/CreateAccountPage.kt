@@ -70,6 +70,7 @@ fun createUser(
         return null
     }
 
+    //TODO: Add this new User to allUsers
     return User(accountName, phoneNumber, password);
 }
 
@@ -91,7 +92,6 @@ fun AccountInformation(
     var repeatPassword by remember { mutableStateOf("") }
 
     Text(text = "CREATE ACCOUNT", fontSize = 25.sp)
-    // TODO: Make text field save data, for use when viewing account page
     OutlinedTextField(
         value = phoneNumber,
         onValueChange = { phoneNumberInput -> phoneNumber = phoneNumberInput },
