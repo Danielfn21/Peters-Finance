@@ -110,6 +110,22 @@ fun AccountInformation(
         label = { Text("Repeat Password") },
         visualTransformation = PasswordVisualTransformation()
     )
+    Button(
+        onClick = {
+            var user = createUser(phoneNumber, accountName, password, repeatPassword)
+            if (user != null) {
+                newUser(user)
+                navController.navigate("GroupHomeOverview")
+            }
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Gray,
+            contentColor = Color.Black
+        ),
+        modifier = Modifier.padding(15.dp)
+    ) {
+        Text("CREATE ACCOUNT", fontSize = loginFontSize)
+    }
 
 
     Column(
@@ -121,21 +137,6 @@ fun AccountInformation(
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-        Button(
-            onClick = {
-                var user = createUser(phoneNumber, accountName, password, repeatPassword)
-                if (user != null) {
-                    newUser(user)
-                    navController.navigate("GroupHomeOverview")
-                }
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Gray,
-                contentColor = Color.Black
-            )
-        ) {
-            Text("CREATE ACCOUNT", fontSize = loginFontSize)
-        }
 
         Spacer(modifier = Modifier.size(spacing))
 

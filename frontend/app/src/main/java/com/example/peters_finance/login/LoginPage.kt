@@ -60,6 +60,7 @@ fun loginUser(
     allUsers: List<User>
 ): User? {
 
+    //This is inefficient, but it works
     for (user in allUsers) {
         if (user.username == username && user.password == password) {
             return user
@@ -96,6 +97,24 @@ fun Information(
         label = { Text("Password") },
         visualTransformation = PasswordVisualTransformation()
     )
+    Button(
+        onClick = {
+            var user = loginUser(username, password, allUsers)
+            if (user != null) {
+                fetchUser(user)
+                navController.navigate("GroupHomeOverview")
+            }
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Gray,
+            contentColor = Color.Black,
+        ),
+        modifier = Modifier.padding(15.dp)
+    ) {
+        Text("LOGIN", fontSize = loginFontSize)
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -105,22 +124,6 @@ fun Information(
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-        Button(
-            onClick = {
-                var user = loginUser(username, password, allUsers)
-                if (user != null) {
-                    fetchUser(user)
-                    navController.navigate("GroupHomeOverview")
-                }
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Gray,
-                contentColor = Color.Black,
-
-                )
-        ) {
-            Text("LOGIN", fontSize = loginFontSize)
-        }
 
         Spacer(modifier = Modifier.size(spacing))
 

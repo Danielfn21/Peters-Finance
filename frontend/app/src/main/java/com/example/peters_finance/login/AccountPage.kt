@@ -58,7 +58,6 @@ fun AccountPage(
             .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
-
         ) {
         Row(
             modifier = Modifier
@@ -94,7 +93,7 @@ fun AccountPage(
 
         Spacer(modifier = Modifier.size(15.dp))
 
-        AccountInfo(currentUser)
+        AccountInfo(currentUser, navController)
 
     }
 }
@@ -128,7 +127,8 @@ fun saveChanges(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountInfo(
-    currentUser: User?
+    currentUser: User?,
+    navController: NavController
 ) {
 
     //styling
@@ -250,10 +250,8 @@ fun AccountInfo(
     ) {
         Button(
             onClick = {
-                newAccountName = ""
-                newPhoneNumber = ""
-                newPassword = ""
-                repeatNewPassword = ""
+                //This is dumb, but it forces the recomposition of the page
+                navController.navigate("AccountPage")
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFDC143C),
@@ -272,6 +270,8 @@ fun AccountInfo(
                     newPassword,
                     repeatNewPassword
                 )
+                //This is dumb, but it forces the recomposition of the page
+                navController.navigate("AccountPage")
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF228B22),

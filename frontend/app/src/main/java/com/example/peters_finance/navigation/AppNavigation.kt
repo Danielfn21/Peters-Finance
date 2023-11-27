@@ -26,8 +26,8 @@ fun AppNavigation() {
     }
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") {
+    NavHost(navController = navController, startDestination = "Splash") {
+        composable("Splash") {
             SplashScreen(navController)
         }
 
@@ -50,6 +50,8 @@ fun AppNavigation() {
         composable("AccountPage") {
             AccountPage(navController, currentUser.value)
         }
+
+
 
     }
 

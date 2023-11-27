@@ -48,5 +48,10 @@
       "username": "Obi-WanKenobi",
       "phone_number": "ObiWan-123456789",
       "password": "Greenland1963ObiWan"
+  },
+  {
+    "username": "LTG",
+    "phone_number": "GTAB-hotline-123",
+    "password": "Test"
   }
 ]
