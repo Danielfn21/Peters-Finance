@@ -320,13 +320,17 @@ fun AddUserPopUp(
                             for (user in allUsers) {
                                 if (user.phone_number == userPhoneNumber && group != null) {
 
-                                    /*TODO: Implement second checker to see if user is already
-                                     * in group and vice versa*/
+                                    // Check if user is already in the group
+                                    if (!group.members.contains(user)) {
+                                        user.groups?.add(group)
+                                        group.members.add(user)
+                                        popupControl = false
+                                        navController.navigate("GroupSettings")
 
-                                    user.groups?.add(group)
-                                    group.members.add(user)
-                                    popupControl = false
-                                    navController.navigate("GroupSettings")
+                                    } else {
+                                        // Do nothing
+
+                                    }
                                 }
                             }
                         },
