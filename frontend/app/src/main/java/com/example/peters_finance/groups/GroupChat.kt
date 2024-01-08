@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -82,7 +83,7 @@ private fun TopBar(
                             navController.navigate("GroupSettings")
                         }
                     ) {
-                        Icon(imageVector = Icons.Default.Settings, contentDescription = null)
+                        Icon(imageVector = Icons.Default.Settings, tint = Color.Black, contentDescription = null)
                     }
                 }
             )
@@ -126,7 +127,11 @@ fun RedirectButtons(
             Button(
                 onClick = {
                     navController.navigate("PayExpensePage")
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Gray,
+                    contentColor = Color.Black
+                )
             ){
                 Text("Pay expenses")
             }
@@ -134,7 +139,11 @@ fun RedirectButtons(
             Button(
                 onClick = {
                     navController.navigate("ViewExpensePage")
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Gray,
+                    contentColor = Color.Black
+                )
             ){
                 Text("View expenses")
             }

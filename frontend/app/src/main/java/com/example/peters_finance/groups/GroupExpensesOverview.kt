@@ -85,7 +85,7 @@ private fun TopBar(
                             navController.navigate("AddExpensePage")
                         }
                     ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                        Icon(imageVector = Icons.Default.Add, tint = Color.Black, contentDescription = null)
                     }
                 }
             )
