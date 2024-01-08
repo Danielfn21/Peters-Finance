@@ -33,7 +33,7 @@ class NotificationGenerator(var context: Context, var title: String, var msg: St
         notificationBuilder.setContentTitle(title)
         notificationBuilder.setContentText(msg)
         notificationBuilder.setAutoCancel(true)
-        notificationManager.notify(100,notificationBuilder.build())
+        notificationManager.notify(100, notificationBuilder.build())
     }
 }
 

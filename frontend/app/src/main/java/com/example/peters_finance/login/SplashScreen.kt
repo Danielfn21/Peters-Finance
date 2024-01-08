@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -49,21 +51,38 @@ fun SplashScreen(
 fun SplashOptions(
     navController: NavController
 ) {
+    val fontSize = 32.sp
     val spacing = 10.dp
+
     CustomTheme {
 
-        StyledButton(text = "LOGIN", onClick = { navController.navigate("LoginPage") })
-
-        Spacer(modifier = Modifier.size(spacing))
-
-        Text("OR", fontSize = 32.sp)
-
-        Spacer(modifier = Modifier.size(spacing))
-
-        StyledButton(
-            text = "CREATE ACCOUNT",
-            onClick = { navController.navigate("CreateAccountPage") })
+        Button(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Gray,
+                contentColor = Color.Black
+            ),
+            onClick = { navController.navigate("LoginPage") })
+        {
+            Text("LOGIN", fontSize = fontSize)
+        }
     }
 
+    Spacer(modifier = Modifier.size(spacing))
 
+    Text("OR", fontSize = 32.sp)
+
+    Spacer(modifier = Modifier.size(spacing))
+
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Gray,
+            contentColor = Color.Black
+        ),
+        onClick = { navController.navigate("CreateAccountPage") })
+    {
+        Text("CREATE ACCOUNT", fontSize = fontSize)
+    }
 }
+
+
+
